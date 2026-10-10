@@ -1,4 +1,4 @@
-# Clima do Paraná: NASA POWER
+# Grupo III: Ocorrências da Ferrugem-Asiática no Paraná
 
 Projeto do **Grupo III** de Aprendizado de Máquina. O objetivo é treinar um modelo capaz de **prever surtos de ferrugem-asiática da soja no Paraná**, cruzando o clima do [NASA POWER](https://power.larc.nasa.gov/) com um conjunto de dados de ocorrências da ferrugem no estado.
 
