@@ -1,0 +1,489 @@
+---
+title: "Clima do Paraná: `r params$local`"
+subtitle: "NASA POWER, dados horários agregados por dia"
+output:
+  html_document:
+    self_contained: true
+    toc: true
+    toc_float: true
+    theme: cosmo
+params:
+  local: "Curitiba"
+  lon: -49.27
+  lat: -25.43
+  slug: "curitiba"                    # nome curto, sem acentos (pastas e arquivos)
+  pasta: "dados/curitiba"             # pasta do local: horario/, diario/, graficos/
+  inicio: "2020-01-01"
+  fim: null                           # null = hoje menos 7 dias (latência da NASA)
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.width = 8, fig.height = 5, dpi = 150)
+library(tidyverse)
+library(lubridate)
+library(nasapower)
+
+# ---- Pastas do local: dados/<local>/{horario, diario, graficos} ----
+slug  <- params$slug
+dir_h <- file.path(params$pasta, "horario")
+dir_d <- file.path(params$pasta, "diario")
+dir_g <- file.path(params$pasta, "graficos")
+walk(c(dir_h, dir_d, dir_g), dir.create, recursive = TRUE, showWarnings = FALSE)
+
+csv_h <- file.path(dir_h, paste0("clima_", slug, "_horario.csv"))
+csv_d <- file.path(dir_d, paste0("clima_", slug, "_diario.csv"))
+
+# Migração: se o CSV horário antigo está na raiz do projeto, move para a pasta nova
+csv_antigo <- paste0("clima_", slug, "_horario.csv")
+if (file.exists(csv_antigo) && !file.exists(csv_h)) file.rename(csv_antigo, csv_h)
+
+# Salva o gráfico em dados/<local>/graficos/<slug>_<nome>.png e devolve o gráfico
+salvar <- function(g, nome, largura = 8, altura = 5) {
+  ggsave(file.path(dir_g, paste0(slug, "_", nome, ".png")), g,
+         width = largura, height = altura, dpi = 150)
+  g
+}
+
+# ---- Período: de `inicio` até hoje (menos a latência da NASA) ----
+inicio <- as.Date(params$inicio)
+fim    <- if (is.null(params$fim)) Sys.Date() - 7 else as.Date(params$fim)
+
+# ---- Download horário (1 requisição por ano, para respeitar a API) ----
+baixar_horario <- function(lon, lat, ini, fim) {
+  anos <- seq(year(ini), year(fim))
+  map(anos, function(a) {
+    i <- max(ini, as.Date(paste0(a, "-01-01")))
+    f <- min(fim, as.Date(paste0(a, "-12-31")))
+    Sys.sleep(2)
+    get_power(
+      community     = "ag",
+      lonlat        = c(lon, lat),                # c(longitude, latitude)
+      pars          = c("T2M", "RH2M", "PRECTOTCORR",
+                        "ALLSKY_SFC_SW_DWN", "WS2M"),
+      dates         = c(format(i), format(f)),
+      temporal_api  = "hourly",
+      time_standard = "LST"                       # hora solar local
+    ) |> as_tibble()
+  }) |> list_rbind()
+}
+
+padroniza <- function(df) {
+  df |>
+    rename(any_of(c(MM = "MO", DD = "DY"))) |>
+    mutate(data = make_date(YEAR, MM, DD))
+}
+
+# Cache incremental: baixa tudo na primeira vez; depois só o que falta
+if (!file.exists(csv_h)) {
+  horario <- baixar_horario(params$lon, params$lat, inicio, fim) |> padroniza()
+} else {
+  antigo <- read_csv(csv_h, show_col_types = FALSE) |> padroniza()
+  # recomeça 2 dias antes do último dia em cache (os últimos dias podem estar incompletos)
+  ini_novo <- max(antigo$data) - 2
+  if (ini_novo < fim) {
+    novo <- baixar_horario(params$lon, params$lat, ini_novo, fim) |> padroniza()
+    # `novo` vem primeiro: em caso de duplicata, vale o dado mais recente
+    horario <- bind_rows(novo, antigo) |> distinct(data, HR, .keep_all = TRUE)
+  } else {
+    horario <- antigo
+  }
+}
+horario <- horario |> arrange(data, HR)
+write_csv(horario, csv_h)
+
+# ---- Horário -> diário -------------------------------------------
+# NASA usa -999 para "sem dado". DPV e ponto de orvalho são calculados
+# HORA A HORA (Magnus) e só depois viram média diária.
+mag_b <- 17.27
+mag_c <- 237.3
+
+diario <- horario |>
+  filter(data >= inicio, data <= fim) |>
+  mutate(across(c(T2M, RH2M, PRECTOTCORR, ALLSKY_SFC_SW_DWN, WS2M),
+                ~ ifelse(.x == -999, NA, .x)),
+         svp    = 0.6108 * exp((mag_b * T2M) / (T2M + mag_c)),
+         vpd_h  = svp * (1 - RH2M / 100),
+         gama   = log(RH2M / 100) + (mag_b * T2M) / (mag_c + T2M),
+         orv_h  = (mag_c * gama) / (mag_b - gama)) |>
+  group_by(data) |>
+  summarise(
+    n_horas      = n(),
+    temperatura  = mean(T2M),
+    temp_max     = max(T2M),
+    temp_min     = min(T2M),
+    temp_orvalho = mean(orv_h),
+    chuva        = sum(PRECTOTCORR),                    # mm/h -> mm/dia
+    umidade      = mean(RH2M),
+    radiacao     = sum(ALLSKY_SFC_SW_DWN),              # MJ/m²/h -> MJ/m²/dia
+    vento        = mean(WS2M),
+    vento_max    = max(WS2M),                           # maior valor horário do dia
+    vpd          = mean(vpd_h),
+    .groups = "drop"
+  )
+
+# Só entram dias completos (24 h) e sem -999
+n_antes <- nrow(diario)
+clima <- diario |>
+  filter(n_horas == 24, if_all(-c(data, n_horas), ~ !is.na(.x))) |>
+  mutate(mes = factor(month(data), levels = 1:12,
+                      labels = c("Jan","Fev","Mar","Abr","Mai","Jun",
+                                 "Jul","Ago","Set","Out","Nov","Dez")))
+dias_descartados <- n_antes - nrow(clima)
+write_csv(select(clima, -mes), csv_d)
+
+# Checagem de unidade da radiação (MJ/m²/dia no Paraná: máximo diário ~ 25 a 35)
+rad_max <- max(clima$radiacao)
+if (rad_max < 15 || rad_max > 45)
+  stop("Radiação diária fora do esperado (máx = ", round(rad_max, 1),
+       "). Na comunidade 'ag' a radiação horária vem em MJ/m²/h; ",
+       "confira a unidade de ALLSKY_SFC_SW_DWN.")
+
+variaveis <- c("temperatura", "temp_max", "temp_min", "temp_orvalho",
+               "chuva", "umidade", "radiacao", "vento", "vpd")
+
+nomes <- c(temperatura  = "Temperatura média (°C)",
+           temp_max     = "Temperatura máxima (°C)",
+           temp_min     = "Temperatura mínima (°C)",
+           temp_orvalho = "Ponto de orvalho (°C)",
+           chuva        = "Chuva (mm/dia)",
+           umidade      = "Umidade (%)",
+           radiacao     = "Radiação (MJ/m²/dia)",
+           vento        = "Vento a 2 m (m/s)",
+           vpd          = "DPV (kPa)")
+
+nomes_curtos <- c(temperatura  = "Temp. média",
+                  temp_max     = "Temp. máx.",
+                  temp_min     = "Temp. mín.",
+                  temp_orvalho = "P. orvalho",
+                  chuva        = "Chuva",
+                  umidade      = "Umidade",
+                  radiacao     = "Radiação",
+                  vento        = "Vento",
+                  vpd          = "DPV")
+
+n_dias  <- nrow(clima)
+local   <- params$local
+periodo <- paste0(format(min(clima$data), "%m/%Y"), " a ",
+                  format(max(clima$data), "%m/%Y"))
+
+classifica <- function(r) {
+  r <- abs(r)
+  case_when(r < 0.20 ~ "Muito fraca",
+            r < 0.40 ~ "Fraca",
+            r < 0.70 ~ "Moderada",
+            r < 0.90 ~ "Forte",
+            TRUE     ~ "Muito forte")
+}
+
+moda <- function(x) {
+  x  <- round(na.omit(x), 1)
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+cv <- function(x) sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100
+
+fmt_p <- function(p) ifelse(p < 0.001, "< 0,001",
+                            format(round(p, 3), decimal.mark = ","))
+```
+
+**Local:** `r local` (latitude `r params$lat`, longitude `r params$lon`)  
+**Período:** `r format(min(clima$data), "%d/%m/%Y")` a `r format(max(clima$data), "%d/%m/%Y")` (`r n_dias` dias completos; `r dias_descartados` descartados por dados incompletos)  
+**Fonte:** NASA POWER (comunidade `ag`, dados horários em hora solar local, agregados por dia)
+
+# 1. Estatística descritiva
+
+```{r descritiva}
+descritiva <- clima |>
+  select(all_of(variaveis)) |>
+  pivot_longer(everything(), names_to = "variavel", values_to = "valor") |>
+  group_by(variavel) |>
+  summarise(
+    media      = mean(valor, na.rm = TRUE),
+    mediana    = median(valor, na.rm = TRUE),
+    moda       = moda(valor),
+    minimo     = min(valor, na.rm = TRUE),
+    maximo     = max(valor, na.rm = TRUE),
+    amplitude  = maximo - minimo,
+    variancia  = var(valor, na.rm = TRUE),
+    desvio_pad = sd(valor, na.rm = TRUE),
+    cv_pct     = cv(valor),
+    q1         = quantile(valor, 0.25, na.rm = TRUE),
+    q3         = quantile(valor, 0.75, na.rm = TRUE),
+    iqr        = IQR(valor, na.rm = TRUE)
+  ) |>
+  arrange(match(variavel, variaveis)) |>
+  mutate(variavel = unname(nomes[variavel])) |>
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+knitr::kable(descritiva, format = "pipe", format.args = list(decimal.mark = ","))
+```
+
+# 2. Gráficos
+
+## 2.1 Distribuição da temperatura média diária
+
+```{r hist-temperatura}
+media_temp <- mean(clima$temperatura, na.rm = TRUE)
+
+g <- ggplot(clima, aes(temperatura)) +
+  geom_histogram(binwidth = 1, fill = "tomato", color = "white") +
+  geom_density(aes(y = after_stat(count)), linewidth = 1) +
+  geom_vline(xintercept = media_temp, linetype = "dashed", linewidth = 0.8) +
+  annotate("text", x = media_temp + 0.3, y = Inf,
+           label = paste0("Média = ", round(media_temp, 1), " °C"),
+           hjust = 0, vjust = 2) +
+  labs(title = paste0("Distribuição da temperatura média diária: ", local),
+       subtitle = "Barras = número de dias a cada 1 °C | Linha = formato suavizado da distribuição",
+       x = "Temperatura média diária (°C)", y = "Número de dias")
+
+salvar(g, "01_histograma_temperatura")
+```
+
+## 2.2 Dias por intensidade de chuva
+
+```{r barras-chuva}
+g <- clima |>
+  mutate(classe = cut(chuva,
+                      breaks = c(0, 1, 5, 25, 50, Inf),
+                      labels = c("Quase sem chuva\n(< 1 mm)",
+                                 "Fraca\n(1 a 5 mm)",
+                                 "Moderada\n(5 a 25 mm)",
+                                 "Forte\n(25 a 50 mm)",
+                                 "Muito forte\n(> 50 mm)"),
+                      right = FALSE, include.lowest = TRUE)) |>
+  count(classe) |>
+  mutate(pct = n / sum(n) * 100) |>
+  ggplot(aes(classe, n)) +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = paste0(n, " dias\n(", round(pct, 1), "%)")),
+            vjust = -0.3) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(title = paste0(local, ": quantos dias de cada tipo de chuva?"),
+       subtitle = paste0(n_dias, " dias (", periodo, ") classificados pela chuva acumulada no dia"),
+       x = NULL, y = "Número de dias")
+
+salvar(g, "02_dias_por_intensidade_chuva")
+```
+
+## 2.3 Temperatura média por mês
+
+```{r boxplot-mes}
+g <- ggplot(clima, aes(mes, temperatura)) +
+  geom_boxplot(fill = "orange", alpha = 0.6) +
+  labs(title = paste0(local, ": temperatura média diária por mês"),
+       subtitle = "Caixa = 50% centrais dos dias | Traço = mediana | Pontos = dias atípicos",
+       x = "Mês", y = "Temperatura (°C)")
+
+salvar(g, "03_boxplot_temperatura_mensal")
+```
+
+## 2.4 Temperatura ao longo do tempo
+
+```{r serie-temporal}
+clima_mensal <- clima |>
+  mutate(ano_mes = floor_date(data, "month")) |>
+  group_by(ano_mes) |>
+  summarise(temperatura = mean(temperatura, na.rm = TRUE))
+
+g <- ggplot() +
+  geom_line(data = clima, aes(data, temperatura),
+            color = "navyblue", linewidth = 0.3) +
+  geom_line(data = clima_mensal, aes(ano_mes + 14, temperatura),
+            color = "red", linewidth = 1) +
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
+  labs(title = paste0("Temperatura média em ", local, " (", periodo, ")"),
+       subtitle = "Azul = temperatura de cada dia | Vermelho = média de cada mês",
+       x = NULL, y = "Temperatura (°C)")
+
+salvar(g, "04_serie_temporal_temperatura")
+```
+
+## 2.5 Radiação solar × temperatura
+
+```{r dispersao}
+rho <- cor(clima$radiacao, clima$temperatura,
+           method = "spearman", use = "complete.obs")
+
+g <- ggplot(clima, aes(radiacao, temperatura)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", formula = y ~ x, color = "red") +
+  labs(title = paste0(local, ": radiação solar x temperatura média"),
+       subtitle = paste0("Cada ponto = 1 dia | Correlação de Spearman = ",
+                         round(rho, 2), " (", tolower(classifica(rho)), ")"),
+       x = "Radiação solar (MJ/m²/dia)", y = "Temperatura média (°C)")
+
+salvar(g, "05_dispersao_radiacao_temperatura")
+```
+
+## 2.6 Temperaturas máxima, média e mínima por mês
+
+```{r max-media-min}
+g <- clima |>
+  mutate(ano_mes = floor_date(data, "month")) |>
+  group_by(ano_mes) |>
+  summarise(Máxima = mean(temp_max, na.rm = TRUE),
+            Média  = mean(temperatura, na.rm = TRUE),
+            Mínima = mean(temp_min, na.rm = TRUE)) |>
+  pivot_longer(-ano_mes, names_to = "tipo", values_to = "temp") |>
+  mutate(tipo = factor(tipo, levels = c("Máxima", "Média", "Mínima"))) |>
+  ggplot(aes(ano_mes + 14, temp, color = tipo)) +
+  geom_line(linewidth = 1) +
+  scale_color_manual(values = c("Máxima" = "tomato",
+                                "Média"  = "grey30",
+                                "Mínima" = "steelblue"),
+                     name = NULL) +
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
+  labs(title = paste0(local, ": temperaturas máxima, média e mínima (", periodo, ")"),
+       subtitle = "Cada ponto = média mensal da temperatura diária",
+       x = NULL, y = "Temperatura (°C)")
+
+salvar(g, "06_temperaturas_max_media_min")
+```
+
+## 2.7 Velocidade do vento por mês
+
+```{r vento-mes, fig.height = 7}
+g <- clima |>
+  select(mes,
+         `Velocidade média do dia` = vento,
+         `Maior valor horário do dia` = vento_max) |>
+  pivot_longer(-mes, names_to = "medida", values_to = "valor") |>
+  ggplot(aes(mes, valor)) +
+  geom_boxplot(fill = "darkseagreen", alpha = 0.7) +
+  facet_wrap(~ medida, ncol = 1, scales = "free_y") +
+  labs(title = paste0(local, ": vento a 2 m de altura por mês"),
+       subtitle = paste0("Caixa = 50% centrais dos dias | Traço = mediana | ",
+                         "Média geral = ", round(mean(clima$vento), 2), " m/s"),
+       x = "Mês", y = "Velocidade do vento (m/s)")
+
+salvar(g, "07_vento_mensal", altura = 7)
+```
+
+O gráfico de baixo mostra o maior valor **horário** de cada dia. Ele indica os dias mais ventosos, mas não é uma rajada: cada valor ainda é uma média de uma hora.
+
+# 3. Teste de normalidade (Shapiro-Wilk)
+
+H0: os dados seguem distribuição normal. H1: não seguem. Critério: p-valor < 0,05 rejeita H0.
+O `shapiro.test()` aceita no máximo 5000 observações; acima disso, o teste usa uma amostra aleatória (veja a nota abaixo).
+
+```{r normalidade}
+# shapiro.test() exige 3 a 5000 observações: com período longo, usa amostra
+set.seed(42)
+amostra_shapiro <- function(x) if (length(x) > 5000) sample(x, 5000) else x
+usou_amostra <- n_dias > 5000
+
+normalidade <- clima |>
+  select(all_of(variaveis)) |>
+  pivot_longer(everything(), names_to = "variavel", values_to = "valor") |>
+  group_by(variavel) |>
+  summarise(W = unname(shapiro.test(amostra_shapiro(valor))$statistic),
+            p = shapiro.test(amostra_shapiro(valor))$p.value,
+            .groups = "drop") |>
+  arrange(match(variavel, variaveis)) |>
+  mutate(
+    Variável  = unname(nomes[variavel]),
+    W         = round(W, 3),
+    `p-valor` = fmt_p(p),
+    Decisão   = ifelse(p >= 0.05, "Normal (não rejeita H0)",
+                       "Não normal (rejeita H0)")
+  ) |>
+  select(Variável, W, `p-valor`, Decisão)
+
+knitr::kable(normalidade, format = "pipe")
+```
+
+`r if (usou_amostra) "**Nota:** a série tem mais de 5000 dias, então o Shapiro-Wilk foi aplicado a uma amostra aleatória de 5000 dias por variável (semente fixa)."`
+
+## Q-Q plots
+
+```{r qqplots, fig.height = 7}
+g <- clima |>
+  select(all_of(variaveis)) |>
+  pivot_longer(everything(), names_to = "variavel", values_to = "valor") |>
+  mutate(variavel = factor(unname(nomes[variavel]), levels = unname(nomes))) |>
+  ggplot(aes(sample = valor)) +
+  stat_qq(alpha = 0.4) +
+  stat_qq_line(color = "red", linewidth = 0.8) +
+  facet_wrap(~ variavel, scales = "free_y") +
+  labs(title = paste0(local, ": as variáveis climáticas seguem uma distribuição normal?"),
+       subtitle = "Pontos sobre a linha vermelha = comportamento normal",
+       x = "Quantis teóricos (normal)", y = "Quantis observados")
+
+salvar(g, "08_qqplots_normalidade", altura = 7)
+```
+
+# 4. Teste de correlação (Spearman)
+
+H0: não há correlação (rho = 0). H1: há correlação (rho ≠ 0).
+Escala de |rho|: 0,00-0,19 muito fraca; 0,20-0,39 fraca; 0,40-0,69 moderada; 0,70-0,89 forte; 0,90-1,00 muito forte.
+
+```{r correlacao}
+matriz <- cor(clima[variaveis], method = "spearman", use = "complete.obs")
+
+pares <- as.data.frame(t(combn(variaveis, 2)))
+names(pares) <- c("v1", "v2")
+
+correlacoes <- pares |>
+  mutate(
+    teste = map2(v1, v2, ~ cor.test(clima[[.x]], clima[[.y]],
+                                    method = "spearman", exact = FALSE)),
+    rho   = map_dbl(teste, ~ unname(.x$estimate)),
+    p     = map_dbl(teste, ~ .x$p.value)
+  ) |>
+  transmute(
+    Par       = paste(unname(nomes_curtos[v1]), "×", unname(nomes_curtos[v2])),
+    rho       = round(rho, 2),
+    `p-valor` = fmt_p(p),
+    Força     = classifica(rho),
+    Sentido   = ifelse(rho > 0, "Positiva", "Negativa"),
+    Decisão   = ifelse(p < 0.05, "Correlação significativa",
+                       "Sem evidência de correlação")
+  ) |>
+  arrange(desc(abs(rho)))
+
+n_sig <- sum(correlacoes$Decisão == "Correlação significativa")
+```
+
+Dos `r nrow(correlacoes)` pares, **`r n_sig` são significativos** (p < 0,05).
+
+```{r tabela-correlacao}
+knitr::kable(correlacoes, format = "pipe")
+```
+
+## Mapa de calor
+
+```{r heatmap, fig.height = 6}
+g <- matriz |>
+  as.data.frame() |>
+  rownames_to_column("v1") |>
+  pivot_longer(-v1, names_to = "v2", values_to = "rho") |>
+  mutate(v1 = factor(unname(nomes_curtos[v1]), levels = unname(nomes_curtos)),
+         v2 = factor(unname(nomes_curtos[v2]), levels = unname(nomes_curtos))) |>
+  ggplot(aes(v1, v2, fill = rho)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = round(rho, 2)), size = 3.5) +
+  scale_fill_gradient2(low = "steelblue", mid = "white", high = "tomato",
+                       limits = c(-1, 1), name = "Correlação") +
+  labs(title = paste0(local, ": correlação de Spearman entre as variáveis climáticas"),
+       subtitle = "Vermelho = positiva | Azul = negativa | Branco = sem relação",
+       x = NULL, y = NULL) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+salvar(g, "09_mapa_calor_correlacao", altura = 6)
+```
+
+## Pearson (apenas para comparação: radiação × temperatura)
+
+```{r pearson}
+pe <- cor.test(clima$radiacao, clima$temperatura, method = "pearson")
+```
+
+r = `r round(unname(pe$estimate), 2)` (IC 95%: `r round(pe$conf.int[1], 2)` a `r round(pe$conf.int[2], 2)`), p-valor `r fmt_p(pe$p.value)`.
+
+# Observações
+
+- O NASA POWER é derivado de satélites e modelos (grade de ~50 km), não de estações; a chuva é a variável menos confiável.
+- Os dados são **horários** (hora solar local) e foram agregados por dia: média para temperatura, umidade, vento, ponto de orvalho e DPV; soma dos valores horários para chuva (mm) e radiação (MJ/m²); máximo e mínimo dos valores horários para `temp_max`, `temp_min` e `vento_max`. Como cada valor horário já é uma média de uma hora, os extremos diários são um pouco mais suaves que os de uma estação.
+- O DPV e o ponto de orvalho são calculados **hora a hora** (fórmula de Magnus) e só depois viram média diária, o que evita o viés de calcular a partir de médias diárias. Ainda assim, suas correlações com temperatura e umidade são em parte matemáticas.
+- O período vai de 2020 até a data mais recente disponível (a NASA tem alguns dias de atraso). O último mês costuma estar incompleto, e a sazonalidade deixa os p-valores otimistas. Correlação não implica causa.
