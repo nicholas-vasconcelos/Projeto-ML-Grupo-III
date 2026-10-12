@@ -7,6 +7,7 @@ output:
     toc: true
     toc_float: true
     theme: cosmo
+    fig_retina: null
 params:
   local: "Curitiba"
   lon: -49.27
@@ -41,7 +42,7 @@ if (file.exists(csv_antigo) && !file.exists(csv_h)) file.rename(csv_antigo, csv_
 # Salva o gráfico em dados/<local>/graficos/<slug>_<nome>.png e devolve o gráfico
 salvar <- function(g, nome, largura = 8, altura = 5) {
   ggsave(file.path(dir_g, paste0(slug, "_", nome, ".png")), g,
-         width = largura, height = altura, dpi = 150)
+         width = largura, height = altura, dpi = 100)
   g
 }
 
