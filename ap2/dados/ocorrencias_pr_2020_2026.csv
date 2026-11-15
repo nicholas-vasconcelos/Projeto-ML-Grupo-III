@@ -1,0 +1,527 @@
+safra,data,municipio,codigo_ibge,latitude,longitude,tipo,n_casos,origem_coord,localidade
+2020/2021,2020-12-10,Castro,4104907,-24.6498,-49.756,comercial,1,propria,NA
+2020/2021,2020-12-15,Arapoti,4101606,-24.196,-49.878,comercial,1,propria,NA
+2020/2021,2020-12-15,Carambeí,4104659,-24.866,-50.2991,comercial,1,propria,NA
+2020/2021,2020-12-28,Londrina,4113700,-23.31,-51.163,comercial,1,municipio,NA
+2020/2021,2020-12-30,Jaguariaíva,4112009,-24.251,-49.706,voluntaria,1,municipio,NA
+2020/2021,2020-12-31,Castro,4104907,-24.791,-50.012,comercial,1,municipio,NA
+2020/2021,2021-01-04,Terra Roxa,4127403,-24.204027,-54.0222673,comercial,1,propria,NA
+2020/2021,2021-01-05,Lapa,4113205,-25.687006,-50.130243,comercial,1,propria,NA
+2020/2021,2021-01-07,Clevelândia,4105706,-26.320068,-52.416375,comercial,1,propria,NA
+2020/2021,2021-01-08,Londrina,4113700,-23.38,-51.11,comercial,1,propria,Distrito de Guaravera
+2020/2021,2021-01-08,Londrina,4113700,-23.31,-51.163,comercial,1,municipio,NA
+2020/2021,2021-01-12,Cruzmaltina,4106852,-23.940278,-51.435727,comercial,1,propria,NA
+2020/2021,2021-01-12,Mangueirinha,4114401,-25.941,-52.176,comercial,1,municipio,NA
+2020/2021,2021-01-13,Itapejara do Oeste,4111209,-25.968191,-52.799642,comercial,1,propria,NA
+2020/2021,2021-01-13,Mauá da Serra,4115754,-23.901,-51.229,comercial,1,municipio,NA
+2020/2021,2021-01-13,Pitanga,4119608,-24.757,-51.761,comercial,1,municipio,NA
+2020/2021,2021-01-14,Vitorino,4128708,-26.277,-52.784,comercial,1,municipio,NA
+2020/2021,2021-01-18,Guamiranga,4108957,-25.191,-50.805,comercial,1,municipio,NA
+2020/2021,2021-01-19,Goioxim,4108650,-25.195,-51.993,comercial,1,municipio,NA
+2020/2021,2021-01-25,Apucarana,4101408,-23.551,-51.461,comercial,1,municipio,NA
+2020/2021,2021-01-25,Boa Ventura de São Roque,4103040,-24.869,-51.628,comercial,1,municipio,NA
+2020/2021,2021-01-25,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2020/2021,2021-01-26,Chopinzinho,4105409,-25.856,-52.523,comercial,1,municipio,NA
+2020/2021,2021-01-26,Corbélia,4106308,-24.799,-53.307,comercial,1,municipio,NA
+2020/2021,2021-01-26,Coronel Vivida,4106506,-25.98,-52.568,comercial,1,municipio,NA
+2020/2021,2021-01-26,Juranda,4112959,-24.42,-52.843,comercial,1,municipio,NA
+2020/2021,2021-01-26,Palmas,4117602,-26.484,-51.991,comercial,1,municipio,NA
+2020/2021,2021-01-26,Quarto Centenário,4120655,-24.279,-53.076,comercial,1,municipio,NA
+2020/2021,2021-01-27,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2020/2021,2021-01-27,Fênix,4107702,-23.916,-51.979,comercial,1,municipio,NA
+2020/2021,2021-01-27,Palotina,4117909,-24.3558714864785,-53.930509314992,comercial,1,propria,NA
+2020/2021,2021-01-27,Roncador,4122503,-24.603,-52.275,comercial,1,municipio,NA
+2020/2021,2021-01-28,Cafelândia,4103453,-24.618,-53.32,comercial,1,municipio,NA
+2020/2021,2021-01-28,Goioerê,4108601,-24.185,-53.028,comercial,1,municipio,NA
+2020/2021,2021-01-29,São João do Ivaí,4125001,-23.98,-51.818,comercial,1,municipio,NA
+2020/2021,2021-01-30,Quarto Centenário,4120655,-24.279,-53.076,comercial,1,municipio,NA
+2020/2021,2021-02-01,Califórnia,4103503,-23.65,-51.355,comercial,1,municipio,NA
+2020/2021,2021-02-01,Cambira,4103800,-23.583,-51.578,comercial,1,municipio,NA
+2020/2021,2021-02-01,Castro,4104907,-24.791,-50.012,comercial,3,municipio,NA
+2020/2021,2021-02-01,Ivaiporã,4111506,-24.248,-51.685,comercial,1,municipio,NA
+2020/2021,2021-02-02,Candói,4104428,-25.570833,-52.052778000000004,comercial,1,municipio,NA
+2020/2021,2021-02-02,Cantagalo,4104451,-25.374,-52.126,comercial,1,municipio,NA
+2020/2021,2021-02-02,Mamborê,4114005,-24.319,-52.53,comercial,1,municipio,NA
+2020/2021,2021-02-02,Pitanga,4119608,-24.601,-51.718,comercial,1,propria,Bom Retiro
+2020/2021,2021-02-03,Campina da Lagoa,4103909,-24.592,-52.799,comercial,1,municipio,NA
+2020/2021,2021-02-03,Cascavel,4104808,-24.956,-53.455,comercial,2,municipio,NA
+2020/2021,2021-02-03,Goioxim,4108650,-25.1927,-51.9911,comercial,1,propria,NA
+2020/2021,2021-02-03,Guarapuava,4109401,-25.395,-51.458,comercial,2,municipio,NA
+2020/2021,2021-02-03,Santa Maria do Oeste,4123857,-24.939,-51.863,comercial,1,municipio,NA
+2020/2021,2021-02-03,São José da Boa Vista,4125407,-23.916,-49.652,comercial,1,municipio,NA
+2020/2021,2021-02-03,Turvo,4127965,-25.043,-51.53,comercial,1,municipio,NA
+2020/2021,2021-02-04,Catanduvas,4105003,-25.203,-53.157,comercial,1,municipio,NA
+2020/2021,2021-02-04,Guarapuava,4109401,-25.34881,-51.74234,comercial,1,propria,Santa Cruz
+2020/2021,2021-02-04,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2020/2021,2021-02-04,Pinhão,4119301,-25.696,-51.66,comercial,1,municipio,NA
+2020/2021,2021-02-05,Rancho Alegre do Oeste,4121356,-24.307,-52.954,comercial,1,municipio,NA
+2020/2021,2021-02-05,Sengés,4126306,-24.113,-49.464,comercial,3,municipio,NA
+2020/2021,2021-02-07,Candói,4104428,-25.344881,-51.74234,comercial,1,propria,Fundão
+2020/2021,2021-02-08,Candói,4104428,-25.687777,-52.055168,comercial,1,propria,Fundão
+2020/2021,2021-02-08,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2020/2021,2021-02-08,Goioxim,4108650,-25.295923,-51.809654,comercial,1,propria,COAMO GOIOXIM
+2020/2021,2021-02-08,Guaraniaçu,4109302,-25.101,-52.878,comercial,1,municipio,NA
+2020/2021,2021-02-08,Marechal Cândido Rondon,4114609,-24.556,-54.057,comercial,1,municipio,NA
+2020/2021,2021-02-08,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2020/2021,2021-02-08,Pinhão,4119301,-25.1423,-51.46508,comercial,1,propria,Angico
+2020/2021,2021-02-09,Cascavel,4104808,-24.956,-53.455,comercial,2,municipio,NA
+2020/2021,2021-02-09,Ibema,4109757,-25.106,-53.012,comercial,1,municipio,NA
+2020/2021,2021-02-09,Matelândia,4115606,-25.241,-53.996,comercial,1,municipio,NA
+2020/2021,2021-02-09,Medianeira,4115804,-25.31114,-54.04831,comercial,1,propria,NA
+2020/2021,2021-02-09,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2020/2021,2021-02-09,Planalto,4119806,-25.716,-53.766,comercial,1,municipio,NA
+2020/2021,2021-02-09,Rancho Alegre do Oeste,4121356,-24.307,-52.954,comercial,1,municipio,NA
+2020/2021,2021-02-10,Candói,4104428,-25.2253,-51.5046,comercial,1,propria,Capão Redondo
+2020/2021,2021-02-10,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2020/2021,2021-02-10,Janiópolis,4112207,-24.142,-52.782,comercial,1,municipio,NA
+2020/2021,2021-02-11,Ariranha do Ivaí,4101853,-24.4132828,-51.5069854,comercial,1,propria,Fazenda São Sebastião
+2020/2021,2021-02-11,Ibiporã,4109807,-23.269,-51.048,comercial,1,municipio,NA
+2020/2021,2021-02-11,Pitanga,4119608,-25.329971,-51.555069,comercial,1,propria,Bom Retiro
+2020/2021,2021-02-12,Cafelândia,4103453,-24.618,-53.32,comercial,1,municipio,NA
+2020/2021,2021-02-12,Guarapuava,4109401,-25.350319,-51.586567,comercial,1,propria,Capão Rico
+2020/2021,2021-02-12,Guarapuava,4109401,-25.350319,-51.586567,comercial,1,propria,Fazenda Capão Rico
+2020/2021,2021-02-12,Guarapuava,4109401,-25.034595,-51.599968,comercial,1,propria,Lanceta
+2020/2021,2021-02-12,Turvo,4127965,-25.02045,-51.35599,comercial,1,propria,Turvo
+2020/2021,2021-02-16,Guarapuava,4109401,-25.392822,-51.845875,comercial,1,propria,Santa Cruz
+2020/2021,2021-02-17,Janiópolis,4112207,-24.142,-52.782,comercial,1,municipio,NA
+2020/2021,2021-02-19,Guarapuava,4109401,-25.034595,-51.599968,comercial,1,propria,Lanceta
+2020/2021,2021-02-19,Turvo,4127965,-25.295923,-51.809654,comercial,1,propria,Fazenda Caldeirão
+2020/2021,2021-02-20,Pinhão,4119301,-25.687422,-51.790714,comercial,1,propria,Angico
+2020/2021,2021-02-23,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2020/2021,2021-03-01,Pinhão,4119301,-25.651327,-51.740372,comercial,1,propria,Angico
+2020/2021,2021-03-01,Pinhão,4119301,-25.65656,-51.859905,comercial,1,propria,São Pedro
+2020/2021,2021-03-01,Pinhão,4119301,-25.653656,-51.859905,comercial,1,propria,São Pedro
+2020/2021,2021-03-02,Goioxim,4108650,-25.295923,-51.809654,comercial,1,propria,Lajeado Raso
+2020/2021,2021-03-02,Guarapuava,4109401,-25.392822,-51.845875,comercial,1,propria,Santa Cruz
+2021/2022,2021-12-13,Mariópolis,4115309,-26.355,-52.559,comercial,1,municipio,NA
+2021/2022,2021-12-23,Santana do Itararé,4124004,-23.755,-49.629,comercial,1,municipio,NA
+2021/2022,2022-01-04,Candói,4104428,-25.61319,-52.0115,comercial,1,propria,NA
+2021/2022,2022-01-10,Chopinzinho,4105409,-25.856,-52.523,comercial,1,municipio,NA
+2021/2022,2022-01-10,Coronel Vivida,4106506,-25.98,-52.568,comercial,1,municipio,NA
+2021/2022,2022-01-12,Marilândia do Sul,4114906,-23.745,-51.308,comercial,1,municipio,NA
+2021/2022,2022-02-01,Londrina,4113700,-23.31,-51.163,comercial,2,municipio,NA
+2021/2022,2022-02-08,Londrina,4113700,-23.31,-51.163,comercial,1,municipio,NA
+2021/2022,2022-02-10,Cambé,4103701,-23.276,-51.278,comercial,1,municipio,NA
+2021/2022,2022-02-14,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2021/2022,2022-02-24,Wenceslau Braz,4128500,-23.874,-49.803,comercial,1,municipio,NA
+2021/2022,2022-02-28,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2021/2022,2022-03-08,Guarapuava,4109401,-25.295923,-51.809654,comercial,1,propria,Fazenda Lajeado Razo
+2021/2022,2022-03-09,Candói,4104428,-24.601402,-51.845875,comercial,1,propria,Capão Redondo
+2021/2022,2022-03-18,Pinhão,4119301,-25.696,-51.66,comercial,1,municipio,NA
+2021/2022,2022-03-29,Guarapuava,4109401,-25.21012,-51.35116,comercial,1,propria,Fazenda Capão Rico
+2021/2022,2022-03-30,Candói,4104428,-24.601402,-51.718105,comercial,1,propria,Fazenda Capão Redondo
+2022/2023,2022-11-16,Tibagi,4127502,-24.509,-50.414,voluntaria,1,municipio,NA
+2022/2023,2022-11-25,Londrina,4113700,-23.366392,-51.168933,comercial,1,propria,NA
+2022/2023,2022-11-25,Terra Roxa,4127403,-24.157,-54.097,comercial,1,municipio,NA
+2022/2023,2022-11-30,Arapoti,4101606,-24.158,-49.827,voluntaria,1,municipio,NA
+2022/2023,2022-12-01,Ipiranga,4110508,-25.024,-50.584,voluntaria,1,municipio,NA
+2022/2023,2022-12-01,Tibagi,4127502,-24.509,-50.414,voluntaria,1,municipio,NA
+2022/2023,2022-12-05,Corbélia,4106308,-24.6555056,-53.2280225,comercial,1,propria,NA
+2022/2023,2022-12-13,Mamborê,4114005,-24.319,-52.53,comercial,1,municipio,NA
+2022/2023,2022-12-13,Nova Santa Rosa,4117222,-24.466,-53.953,comercial,1,municipio,NA
+2022/2023,2022-12-14,Palotina,4117909,-24.198421,-53.768755,comercial,1,propria,Lina Aratiba
+2022/2023,2022-12-19,Cantagalo,4104451,-25.374,-52.126,comercial,1,municipio,NA
+2022/2023,2022-12-20,Iracema do Oeste,4110656,-24.428,-53.355,comercial,1,municipio,NA
+2022/2023,2022-12-21,Mariópolis,4115309,-26.355,-52.559,comercial,1,municipio,NA
+2022/2023,2022-12-21,Pitanga,4119608,-24.757,-51.761,comercial,1,municipio,NA
+2022/2023,2022-12-22,Rio Bonito do Iguaçu,4122156,-25.491,-52.526,comercial,1,municipio,NA
+2022/2023,2022-12-29,Fênix,4107702,-23.916,-51.979,comercial,1,municipio,NA
+2022/2023,2022-12-29,Santana do Itararé,4124004,-23.755,-49.629,comercial,1,municipio,NA
+2022/2023,2022-12-30,Turvo,4127965,-25.043,-51.53,comercial,1,municipio,NA
+2022/2023,2023-01-03,Ponta Grossa,4119905,-25.095,-50.162,comercial,1,municipio,NA
+2022/2023,2023-01-05,Contenda,4106209,-25.795541,-49.545584,comercial,1,propria,NA
+2022/2023,2023-01-06,Cruzmaltina,4106852,-24.013,-51.459,comercial,1,municipio,NA
+2022/2023,2023-01-07,Santa Mariana,4123907,-23.151,-50.519,comercial,1,municipio,NA
+2022/2023,2023-01-10,Boa Esperança,4103008,-24.242,-52.789,comercial,1,municipio,NA
+2022/2023,2023-01-11,Candói,4104428,-25.321381,-51.836422,comercial,1,propria,
+2022/2023,2023-01-11,Floraí,4107801,-23.317,-52.304,comercial,1,municipio,NA
+2022/2023,2023-01-11,Jaguariaíva,4112009,-24.251,-49.706,comercial,1,municipio,NA
+2022/2023,2023-01-11,Pinhalão,4119202,-23.793,-50.056,comercial,1,municipio,NA
+2022/2023,2023-01-11,São Jorge do Ivaí,4125308,-23.433,-52.293,comercial,1,municipio,NA
+2022/2023,2023-01-11,Wenceslau Braz,4128500,-23.874,-49.803,comercial,2,municipio,NA
+2022/2023,2023-01-12,Ariranha do Ivaí,4101853,-24.41422759,-51.5084462,comercial,1,propria,Fazenda São Sebastião
+2022/2023,2023-01-12,Jaguapitã,4111902,-23.113,-51.532,comercial,2,municipio,NA
+2022/2023,2023-01-12,Mandaguaçu,4114104,-23.347,-52.095,comercial,1,municipio,NA
+2022/2023,2023-01-12,Pitanga,4119608,-24.6034,-51.69759,comercial,1,propria,Fazenda Bom Retiro
+2022/2023,2023-01-16,Goioerê,4108601,-24.185,-53.028,comercial,1,municipio,NA
+2022/2023,2023-01-16,Moreira Sales,4116109,-24.062,-53.007,comercial,1,municipio,NA
+2022/2023,2023-01-16,Nova Santa Bárbara,4117214,-23.597,-50.724,comercial,1,municipio,NA
+2022/2023,2023-01-16,Primeiro de Maio,4120507,-22.863657,-51.044757,comercial,1,propria,NA
+2022/2023,2023-01-16,Santo Inácio,4124509,-22.698,-51.794,comercial,1,municipio,NA
+2022/2023,2023-01-17,Coronel Vivida,4106506,-25.98,-52.568,comercial,1,municipio,NA
+2022/2023,2023-01-17,Iracema do Oeste,4110656,-24.428,-53.355,comercial,1,municipio,NA
+2022/2023,2023-01-18,Cândido de Abreu,4104402,-24.557254,-51.31661,comercial,1,propria,NA
+2022/2023,2023-01-18,Rio Branco do Ivaí,4122172,-24.344864,-51.265474,comercial,2,propria,NA
+2022/2023,2023-01-19,Cândido de Abreu,4104402,-24.567,-51.333,comercial,1,municipio,NA
+2022/2023,2023-01-20,Anahy,4101051,-24.644,-53.135,comercial,1,municipio,NA
+2022/2023,2023-01-20,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2022/2023,2023-01-20,Ramilândia,4121257,-25.12,-54.025,comercial,1,municipio,NA
+2022/2023,2023-01-21,Boa Ventura de São Roque,4103040,-24.869,-51.628,comercial,1,municipio,NA
+2022/2023,2023-01-21,Mandaguari,4114203,-23.508889,-51.713889,comercial,1,propria,NA
+2022/2023,2023-01-23,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2022/2023,2023-01-23,Ivaiporã,4111506,-24.42803,-51.597222,comercial,1,propria,NA
+2022/2023,2023-01-23,Ivaiporã,4111506,-24.248,-51.685,comercial,1,municipio,NA
+2022/2023,2023-01-23,Mangueirinha,4114401,-25.941,-52.176,comercial,1,municipio,NA
+2022/2023,2023-01-23,Rancho Alegre do Oeste,4121356,-24.307,-52.954,comercial,1,municipio,NA
+2022/2023,2023-01-24,Peabiru,4118808,-23.913,-52.343,comercial,1,municipio,NA
+2022/2023,2023-01-25,Londrina,4113700,-23.355314,-51.242189,comercial,1,propria,Ribeirão Cafezal
+2022/2023,2023-01-25,São João do Ivaí,4125001,-23.98,-51.818,comercial,1,municipio,NA
+2022/2023,2023-01-30,Palmas,4117602,-26.484,-51.991,comercial,1,municipio,NA
+2022/2023,2023-01-31,Campo Mourão,4104303,-24.046,-52.383,comercial,1,municipio,NA
+2022/2023,2023-01-31,Japira,4112306,-23.813,-50.139,comercial,1,municipio,NA
+2022/2023,2023-02-03,Goioxim,4108650,-25.195,-51.993,comercial,1,municipio,NA
+2022/2023,2023-02-06,Candói,4104428,-25.374216,-51.927292,comercial,1,propria,Bebinha
+2022/2023,2023-02-06,Candói,4104428,-25.22284,-51.52551,comercial,1,propria,Fazenda Capão Redondo
+2022/2023,2023-02-06,Candói,4104428,-25.570833,-52.052778000000004,comercial,1,municipio,NA
+2022/2023,2023-02-06,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2022/2023,2023-02-06,Reserva do Iguaçu,4121752,-25.839,-52.028,comercial,1,municipio,NA
+2022/2023,2023-02-08,Bandeirantes,4102406,-23.11,-50.368,comercial,1,municipio,NA
+2022/2023,2023-02-08,Candói,4104428,-25.398355,-51.845108,comercial,1,propria,Fazenda Capão Redondo
+2022/2023,2023-02-08,Cornélio Procópio,4106407,-23.181,-50.647,comercial,1,municipio,NA
+2022/2023,2023-02-09,Ariranha do Ivaí,4101853,-24.2235,-51.2829,comercial,2,propria,Fazenda Santa Fé
+2022/2023,2023-02-09,Pitanga,4119608,-24.601736,-51.712906,comercial,1,propria,Fazenda Bom Retiro
+2022/2023,2023-02-09,Roncador,4122503,-24.603,-52.275,comercial,1,municipio,NA
+2022/2023,2023-02-13,Guarapuava,4109401,-25.222256,-51.772594,comercial,1,propria,Fazenda Du Véio
+2022/2023,2023-02-13,Pinhão,4119301,-25.696,-51.66,comercial,1,municipio,NA
+2022/2023,2023-02-14,Candói,4104428,-25.26419,-51.48162,comercial,1,propria,Campo Real
+2022/2023,2023-02-14,Guarapuava,4109401,-25.20229,-51.35399,comercial,1,propria,Fazenda Lanceta
+2022/2023,2023-02-14,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2022/2023,2023-02-16,Turvo,4127965,-24.56337,-51.27003,comercial,1,propria,Fazenda Santa Luiza
+2022/2023,2023-02-17,Candói,4104428,-25.3913,-52.0619,comercial,1,propria,Fazenda Casa Branca
+2022/2023,2023-02-17,Pinhão,4119301,-25.6756,-51.792,comercial,1,propria,Angico
+2022/2023,2023-02-17,Pinhão,4119301,-25.696,-51.66,comercial,1,municipio,NA
+2022/2023,2023-02-17,Santa Isabel do Ivaí,4123709,-23.003,-53.197,comercial,1,municipio,NA
+2022/2023,2023-02-22,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2022/2023,2023-02-24,Santa Mônica,4123956,-23.108,-53.109,comercial,1,municipio,NA
+2022/2023,NA,Pitanga,4119608,-24.757,-51.761,comercial,2,municipio,NA
+2023/2024,2023-09-20,Ponta Grossa,4119905,-25.095,-50.162,voluntaria,1,municipio,NA
+2023/2024,2023-09-21,Ortigueira,4117305,-24.208,-50.949,voluntaria,1,municipio,NA
+2023/2024,2023-10-10,Cantagalo,4104451,-25.374,-52.126,voluntaria,1,municipio,NA
+2023/2024,2023-10-11,Itapejara do Oeste,4111209,-25.965,-52.816,voluntaria,1,municipio,NA
+2023/2024,2023-10-11,Pato Branco,4118501,-26.229,-52.671,voluntaria,1,municipio,NA
+2023/2024,2023-10-30,Foz do Iguaçu,4108304,-25.553741,-54.460795,comercial,1,propria,
+2023/2024,2023-10-31,Castro,4104907,-24.791,-50.012,voluntaria,1,municipio,NA
+2023/2024,2023-10-31,Ponta Grossa,4119905,-25.095,-50.162,voluntaria,2,municipio,NA
+2023/2024,2023-10-31,Santana do Itararé,4124004,-23.755,-49.629,voluntaria,1,municipio,NA
+2023/2024,2023-11-10,Foz do Iguaçu,4108304,-25.553741,-54.460795,comercial,1,propria,
+2023/2024,2023-11-10,Tibagi,4127502,-24.509,-50.414,voluntaria,1,municipio,NA
+2023/2024,2023-11-17,Ubiratã,4128005,-24.545,-52.988,comercial,1,municipio,NA
+2023/2024,2023-11-20,Boa Esperança,4103008,-24.242,-52.789,comercial,1,municipio,NA
+2023/2024,2023-11-20,Foz do Iguaçu,4108304,-25.553741,-54.460795,comercial,1,propria,
+2023/2024,2023-11-20,Ouro Verde do Oeste,4117453,-24.805,-53.903,comercial,1,municipio,NA
+2023/2024,2023-11-20,Rancho Alegre,4121307,-23.07,-50.913,comercial,1,municipio,NA
+2023/2024,2023-11-20,Terra Roxa,4127403,-24.157,-54.097,comercial,1,municipio,NA
+2023/2024,2023-11-20,Ubiratã,4128005,-24.545,-52.988,comercial,1,municipio,NA
+2023/2024,2023-11-21,Mamborê,4114005,-24.319,-52.53,comercial,1,municipio,NA
+2023/2024,2023-11-22,Boa Ventura de São Roque,4103040,-24.937472,-51.622668,comercial,1,propria,NA
+2023/2024,2023-11-22,Mangueirinha,4114401,-25.941,-52.176,comercial,1,municipio,NA
+2023/2024,2023-11-24,Céu Azul,4105300,-25.147,-53.849,comercial,1,municipio,NA
+2023/2024,2023-11-27,São Miguel do Iguaçu,4125704,-25.348,-54.238,comercial,2,municipio,NA
+2023/2024,2023-11-28,Rio Bonito do Iguaçu,4122156,-25.542721,-52.457929,comercial,1,propria,NA
+2023/2024,2023-11-29,Candói,4104428,-25.22284,-51.5084462,comercial,1,propria,Fazenda Capão Redondo
+2023/2024,2023-11-29,Candói,4104428,-25.570833,-52.052778000000004,comercial,1,municipio,NA
+2023/2024,2023-11-29,Londrina,4113700,-23.31,-51.163,comercial,1,municipio,NA
+2023/2024,2023-11-30,Arapoti,4101606,-24.158,-49.827,comercial,1,municipio,NA
+2023/2024,2023-11-30,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2023/2024,2023-11-30,Coronel Vivida,4106506,-25.98,-52.568,comercial,1,municipio,NA
+2023/2024,2023-11-30,Pitanga,4119608,-24.757,-51.761,comercial,1,municipio,NA
+2023/2024,2023-11-30,São Miguel do Iguaçu,4125704,-25.3475,-54.2381,comercial,1,propria,
+2023/2024,2023-12-01,Arapuã,4101655,-24.316,-51.787,voluntaria,1,municipio,NA
+2023/2024,2023-12-01,Mariópolis,4115309,-26.355,-52.559,comercial,1,municipio,NA
+2023/2024,2023-12-01,Nova Aurora,4116703,-24.529,-53.256,comercial,1,municipio,NA
+2023/2024,2023-12-01,Pato Branco,4118501,-26.229,-52.671,comercial,1,municipio,NA
+2023/2024,2023-12-03,Cafelândia,4103453,-24.618,-53.32,comercial,1,municipio,NA
+2023/2024,2023-12-04,Foz do Iguaçu,4108304,-25.553741,-54.460795,comercial,1,propria,
+2023/2024,2023-12-04,Itapejara do Oeste,4111209,-25.965,-52.816,comercial,1,municipio,NA
+2023/2024,2023-12-04,Ortigueira,4117305,-24.027507,-50.842625,comercial,1,propria,Região do Natingui
+2023/2024,2023-12-04,Rancho Alegre do Oeste,4121356,-24.307,-52.954,comercial,1,municipio,NA
+2023/2024,2023-12-05,Campina da Lagoa,4103909,-24.592,-52.799,comercial,1,municipio,NA
+2023/2024,2023-12-06,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2023/2024,2023-12-06,Goioxim,4108650,-25.195,-51.993,comercial,1,municipio,NA
+2023/2024,2023-12-06,Palmeira,4117701,-25.429,-50.006,comercial,1,municipio,NA
+2023/2024,2023-12-06,Pato Branco,4118501,-26.229,-52.671,comercial,1,municipio,NA
+2023/2024,2023-12-06,Piraí do Sul,4119400,-24.526,-49.949,comercial,2,municipio,NA
+2023/2024,2023-12-06,Roncador,4122503,-24.603,-52.275,comercial,1,municipio,NA
+2023/2024,2023-12-06,Toledo,4127700,-24.714,-53.743,comercial,1,municipio,NA
+2023/2024,2023-12-07,Guarapuava,4109401,-25.21,-51.351,comercial,1,propria,Fazenda Capão Rico
+2023/2024,2023-12-07,Guarapuava,4109401,-25.338,-51.557,comercial,1,propria,Fazenda Cpão Rico
+2023/2024,2023-12-07,Mariópolis,4115309,-26.355,-52.559,comercial,1,municipio,NA
+2023/2024,2023-12-07,Santo Antônio do Sudoeste,4124400,-26.07,-53.723,comercial,1,municipio,NA
+2023/2024,2023-12-07,Serranópolis do Iguaçu,4126355,-25.38,-54.052,comercial,1,municipio,NA
+2023/2024,2023-12-08,Corbélia,4106308,-24.799,-53.307,comercial,1,municipio,NA
+2023/2024,2023-12-08,Palmas,4117602,-26.484,-51.991,comercial,1,municipio,NA
+2023/2024,2023-12-08,Prudentópolis,4120606,-25.213,-50.978,comercial,1,municipio,NA
+2023/2024,2023-12-08,Santa Terezinha de Itaipu,4124053,-25.447,-54.401,comercial,1,municipio,NA
+2023/2024,2023-12-08,Tibagi,4127502,-24.509,-50.414,comercial,2,municipio,NA
+2023/2024,2023-12-09,Juranda,4112959,-24.42,-52.843,comercial,1,municipio,NA
+2023/2024,2023-12-09,Marechal Cândido Rondon,4114609,-24.556,-54.057,comercial,1,municipio,NA
+2023/2024,2023-12-11,Assis Chateaubriand,4102000,-24.42,-53.521,comercial,1,municipio,NA
+2023/2024,2023-12-11,Barracão,4102604,-26.254,-53.633,comercial,1,municipio,NA
+2023/2024,2023-12-11,Candói,4104428,-25.570833,-52.052778000000004,comercial,1,municipio,NA
+2023/2024,2023-12-11,Clevelândia,4105706,-26.396,-52.471,comercial,1,municipio,NA
+2023/2024,2023-12-11,Nova Cantu,4116802,-24.673,-52.569,comercial,1,municipio,NA
+2023/2024,2023-12-11,Santa Terezinha de Itaipu,4124053,-25.447,-54.401,comercial,2,municipio,NA
+2023/2024,2023-12-11,Turvo,4127965,-25.043,-51.53,comercial,1,municipio,NA
+2023/2024,2023-12-12,Corbélia,4106308,-24.799,-53.307,comercial,2,municipio,NA
+2023/2024,2023-12-12,Goioerê,4108601,-24.185,-53.028,comercial,1,municipio,NA
+2023/2024,2023-12-12,Goioxim,4108650,-25.295,-51.809,comercial,1,propria,Fazenda Lageado
+2023/2024,2023-12-12,Imbaú,4110078,-24.445,-50.761,comercial,1,municipio,NA
+2023/2024,2023-12-12,Manoel Ribas,4114500,-24.516,-51.668,comercial,1,municipio,NA
+2023/2024,2023-12-12,Pranchita,4120358,-26.02,-53.74,comercial,1,municipio,NA
+2023/2024,2023-12-12,Toledo,4127700,-24.714,-53.743,comercial,4,municipio,NA
+2023/2024,2023-12-13,Campina do Simão,4103958,-25.079,-51.827,comercial,1,municipio,NA
+2023/2024,2023-12-13,Francisco Beltrão,4108403,-26.081,-53.055,comercial,1,municipio,NA
+2023/2024,2023-12-13,Vitorino,4128708,-26.277,-52.784,comercial,1,municipio,NA
+2023/2024,2023-12-14,Anahy,4101051,-24.644,-53.135,comercial,1,municipio,NA
+2023/2024,2023-12-14,Campina do Simão,4103958,-25.068,-51.825,comercial,1,propria,ARARAS
+2023/2024,2023-12-14,Luiziana,4113734,-24.286,-52.276,comercial,1,municipio,NA
+2023/2024,2023-12-14,Ponta Grossa,4119905,-25.095,-50.162,comercial,1,municipio,NA
+2023/2024,2023-12-14,Teixeira Soares,4127007,-25.368,-50.461,comercial,1,municipio,NA
+2023/2024,2023-12-14,Tibagi,4127502,-24.509,-50.414,comercial,1,municipio,NA
+2023/2024,2023-12-15,Cruzmaltina,4106852,-24.013,-51.459,comercial,1,municipio,NA
+2023/2024,2023-12-15,Cândido de Abreu,4104402,-24.567,-51.333,comercial,1,municipio,NA
+2023/2024,2023-12-15,Manoel Ribas,4114500,-24.516,-51.668,comercial,1,municipio,NA
+2023/2024,2023-12-15,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2023/2024,2023-12-15,Santa Helena,4123501,-24.86,-54.333,comercial,1,municipio,NA
+2023/2024,2023-12-17,Luiziana,4113734,-24.286,-52.276,comercial,1,municipio,NA
+2023/2024,2023-12-18,Candói,4104428,-25.663,-51.809,comercial,1,propria,Fazenda Casa Branca
+2023/2024,2023-12-19,Coronel Domingos Soares,4106456,-26.228,-52.032,comercial,1,municipio,NA
+2023/2024,2023-12-19,Guarapuava,4109401,-25.329,-51.555,comercial,1,propria,Fazenda Capão Rico
+2023/2024,2023-12-19,Guarapuava,4109401,-25.295,-51.809,comercial,4,propria,Fazenda Lageado Razo
+2023/2024,2023-12-20,Ponta Grossa,4119905,-25.095,-50.162,comercial,2,municipio,NA
+2023/2024,2023-12-21,São Miguel do Iguaçu,4125704,-25.348,-54.238,comercial,1,municipio,NA
+2023/2024,2023-12-21,Tamarana,4126678,-23.723,-51.097,comercial,1,municipio,NA
+2023/2024,2023-12-24,Missal,4116059,-25.042133767833732,-54.38812820969325,comercial,1,propria,NA
+2023/2024,2023-12-26,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2023/2024,2023-12-26,São João do Ivaí,4125001,-23.98,-51.818,comercial,1,municipio,NA
+2023/2024,2023-12-28,Foz do Iguaçu,4108304,-25.55394,-54.460229,comercial,1,propria,
+2023/2024,2023-12-28,Nova Prata do Iguaçu,4117255,-25.633,-53.347,comercial,1,municipio,NA
+2023/2024,2024-01-03,Pinhão,4119301,-25.696,-51.66,comercial,1,municipio,NA
+2023/2024,2024-01-03,Serranópolis do Iguaçu,4126355,-25.4327,-54.0951,comercial,1,propria,Boa Vista
+2023/2024,2024-01-04,Foz do Iguaçu,4108304,-25.558984,-54.458285,comercial,1,propria,
+2023/2024,2024-01-09,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2023/2024,2024-01-11,General Carneiro,4108502,-26.428,-51.316,comercial,1,municipio,NA
+2023/2024,2024-01-12,General Carneiro,4108502,-26.428,-51.316,comercial,4,municipio,NA
+2023/2024,2024-01-15,Ampére,4101002,-25.915,-53.473,comercial,1,municipio,NA
+2023/2024,2024-01-16,Candói,4104428,-25.570833,-52.052778000000004,comercial,1,municipio,NA
+2023/2024,2024-01-17,Santa Lúcia,4123824,-25.407,-53.566,comercial,1,municipio,NA
+2023/2024,2024-01-19,Campina do Simão,4103958,-25.079,-51.827,comercial,1,municipio,NA
+2023/2024,2024-01-19,Santa Cruz de Monte Castelo,4123303,-22.953,-53.297,comercial,1,municipio,NA
+2023/2024,2024-01-19,Santa Mônica,4123956,-23.108,-53.109,comercial,1,municipio,NA
+2023/2024,2024-01-22,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2023/2024,2024-01-24,Maringá,4115200,-23.425,-51.939,comercial,1,municipio,NA
+2023/2024,2024-01-25,Ivaiporã,4111506,-24.248,-51.685,comercial,1,municipio,NA
+2023/2024,2024-02-02,Tamarana,4126678,-23.723,-51.097,comercial,1,municipio,NA
+2023/2024,2024-02-11,Wenceslau Braz,4128500,-23.874,-49.803,comercial,1,municipio,NA
+2023/2024,2024-02-18,São José da Boa Vista,4125407,-23.916,-49.652,comercial,1,municipio,NA
+2023/2024,2024-02-19,Ventania,4128534,-24.246,-50.243,comercial,1,municipio,NA
+2023/2024,2024-02-23,Ortigueira,4117305,-24.208,-50.949,comercial,1,municipio,NA
+2023/2024,2024-03-01,Ortigueira,4117305,-24.208,-50.949,comercial,1,municipio,NA
+2024/2025,2024-11-14,Castro,4104907,-24.791,-50.012,voluntaria,1,municipio,NA
+2024/2025,2024-12-02,Cascavel,4104808,-25.009522,-53.425751,comercial,1,propria,NA
+2024/2025,2024-12-02,Cascavel,4104808,-24.971033,-53.171505,comercial,1,propria,NA
+2024/2025,2024-12-04,Santa Tereza do Oeste,4124020,-24.961111,-53.557778,comercial,1,propria,NA
+2024/2025,2024-12-04,Santa Tereza do Oeste,4124020,-24.946389,-53.601944,comercial,1,propria,NA
+2024/2025,2024-12-05,Braganey,4103354,-24.816,-53.122,comercial,1,municipio,NA
+2024/2025,2024-12-05,Cascavel,4104808,-24.956512,-53.326183,comercial,1,propria,NA
+2024/2025,2024-12-05,Marquinho,4115457,-25.113,-52.254,comercial,1,municipio,NA
+2024/2025,2024-12-06,Guaraniaçu,4109302,-24.987995,-52.956667,comercial,1,propria,NA
+2024/2025,2024-12-10,Corbélia,4106308,-24.827611,-53.314222,comercial,1,propria,NA
+2024/2025,2024-12-12,Cascavel,4104808,-24.79775,-53.492806,comercial,1,propria,NA
+2024/2025,2024-12-12,Santana do Itararé,4124004,-23.755,-49.629,comercial,1,municipio,NA
+2024/2025,2024-12-12,Tibagi,4127502,-24.509,-50.414,comercial,1,municipio,NA
+2024/2025,2024-12-12,Toledo,4127700,-24.767485,-53.681859,comercial,1,propria,NA
+2024/2025,2024-12-12,Toledo,4127700,-24.767174615041743,-53.679049570227825,comercial,1,propria,NA
+2024/2025,2024-12-17,Campo Mourão,4104303,-24.046,-52.383,comercial,1,municipio,NA
+2024/2025,2024-12-17,Cascavel,4104808,-24.843375,-53.635979,comercial,1,propria,NA
+2024/2025,2024-12-17,Vera Cruz do Oeste,4128559,-24.991376,-53.818065,comercial,1,propria,NA
+2024/2025,2024-12-18,Capanema,4104501,-25.672,-53.809,comercial,1,municipio,NA
+2024/2025,2024-12-18,Santa Maria do Oeste,4123857,-24.939,-51.863,comercial,1,municipio,NA
+2024/2025,2024-12-19,Boa Ventura de São Roque,4103040,-24.869,-51.628,comercial,1,municipio,NA
+2024/2025,2024-12-21,Jaguariaíva,4112009,-24.251,-49.706,voluntaria,1,municipio,NA
+2024/2025,2024-12-22,Boa Ventura de São Roque,4103040,-24.869,-51.628,comercial,1,municipio,NA
+2024/2025,2024-12-23,Cascavel,4104808,-24.84791,-53.319826,comercial,1,propria,NA
+2024/2025,2024-12-23,Santa Izabel do Oeste,4123808,-25.792797,-53.416936,comercial,1,propria,Anunciação
+2024/2025,2024-12-26,Mamborê,4114005,-24.319,-52.53,comercial,1,municipio,NA
+2024/2025,2024-12-26,Santo Antônio do Sudoeste,4124400,-26.085637,-53.617399,comercial,1,propria,São Pedro do Florido
+2024/2025,2024-12-27,Jaguariaíva,4112009,-24.251,-49.706,comercial,1,municipio,NA
+2024/2025,2024-12-27,Rio Branco do Ivaí,4122172,-24.324,-51.313,comercial,1,municipio,NA
+2024/2025,2024-12-27,Santo Antônio do Sudoeste,4124400,-26.018128,-53.639528,comercial,1,propria,São Pedro do Florido
+2024/2025,2024-12-27,Santo Antônio do Sudoeste,4124400,-26.042096,-53.603793,comercial,1,propria,NA
+2024/2025,2025-01-02,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2024/2025,2025-01-02,Vitorino,4128708,-26.3428304,-52.8442681,comercial,1,propria,NA
+2024/2025,2025-01-03,Ivaiporã,4111506,-24.248,-51.685,comercial,1,municipio,NA
+2024/2025,2025-01-03,Mangueirinha,4114401,-25.941,-52.176,comercial,1,municipio,NA
+2024/2025,2025-01-03,Palmas,4117602,-26.484,-51.991,comercial,1,municipio,NA
+2024/2025,2025-01-03,Realeza,4121406,-25.767,-53.527,comercial,1,municipio,NA
+2024/2025,2025-01-06,Roncador,4122503,-24.603,-52.275,comercial,1,municipio,NA
+2024/2025,2025-01-07,Barracão,4102604,-26.254,-53.633,comercial,1,municipio,NA
+2024/2025,2025-01-07,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2024/2025,2025-01-09,Cândido de Abreu,4104402,-24.567,-51.333,comercial,1,municipio,NA
+2024/2025,2025-01-09,Mauá da Serra,4115754,-23.901,-51.229,comercial,1,municipio,NA
+2024/2025,2025-01-09,Reserva do Iguaçu,4121752,-25.839,-52.028,comercial,1,municipio,NA
+2024/2025,2025-01-10,Pitanga,4119608,-24.757,-51.761,comercial,1,municipio,NA
+2024/2025,2025-01-13,Goioerê,4108601,-24.185,-53.028,comercial,1,municipio,NA
+2024/2025,2025-01-15,Coronel Vivida,4106506,-25.98,-52.568,comercial,1,municipio,NA
+2024/2025,2025-01-16,Iretama,4110805,-24.424,-52.106,comercial,1,municipio,NA
+2024/2025,2025-01-17,Londrina,4113700,-23.31,-51.163,comercial,1,municipio,NA
+2024/2025,2025-01-20,Luiziana,4113734,-24.286,-52.276,comercial,1,municipio,NA
+2024/2025,2025-01-20,São João do Ivaí,4125001,-23.98,-51.818,comercial,1,municipio,NA
+2024/2025,2025-01-21,Reserva,4121703,-24.65,-50.851,comercial,1,municipio,NA
+2024/2025,2025-01-23,Coronel Domingos Soares,4106456,-26.228,-52.032,comercial,1,municipio,NA
+2024/2025,2025-01-27,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2024/2025,2025-01-28,Cantagalo,4104451,-25.374,-52.126,comercial,1,municipio,NA
+2024/2025,2025-01-30,Ariranha do Ivaí,4101853,-24.444923,-51.490017,comercial,1,propria,Fazenda Três Marias
+2024/2025,2025-01-30,Manoel Ribas,4114500,-24.594167,-51.663472,comercial,1,propria,Fazenda Barra Preta I
+2024/2025,2025-01-31,Santa Isabel do Ivaí,4123709,-23.003,-53.197,comercial,1,municipio,NA
+2024/2025,2025-02-02,Candói,4104428,-25.392822,-51.74234,comercial,1,propria,Fazenda Capão Redondo
+2024/2025,2025-02-04,Goioxim,4108650,-25.1142,-51.5934,comercial,1,propria,Fazenda Rio do Poço
+2024/2025,2025-02-04,Maringá,4115200,-23.425,-51.939,comercial,1,municipio,NA
+2024/2025,2025-02-05,Pinhão,4119301,-25.813167,-51.867694,comercial,1,propria,Fazenda Capão Grande
+2024/2025,2025-02-07,Nova Tebas,4117271,-24.438,-51.945,comercial,1,municipio,NA
+2024/2025,2025-02-07,Turvo,4127965,-25.55248,-51.28164,comercial,1,propria,Fazenda Santa Luíza
+2024/2025,2025-02-08,Candói,4104428,-25.392822,-51.74234,comercial,1,propria,Fazenda Capão Redondo
+2024/2025,2025-02-11,Figueira,4107751,-23.849,-50.403,comercial,1,municipio,NA
+2024/2025,2025-02-11,Pitanga,4119608,-24.757,-51.761,comercial,1,municipio,NA
+2024/2025,2025-02-12,São Sebastião da Amoreira,4126009,-23.465,-50.761,comercial,1,municipio,NA
+2024/2025,2025-02-13,Cornélio Procópio,4106407,-23.181,-50.647,comercial,1,municipio,NA
+2025/2026,2025-11-06,Imbaú,4110078,-24.445,-50.761,voluntaria,1,municipio,NA
+2025/2026,2025-11-13,Arapoti,4101606,-24.158,-49.827,voluntaria,1,municipio,NA
+2025/2026,2025-11-13,Palmeira,4117701,-25.429,-50.006,voluntaria,1,municipio,NA
+2025/2026,2025-11-18,Corbélia,4106308,-24.799,-53.307,comercial,1,municipio,NA
+2025/2026,2025-11-19,Toledo,4127700,-24.714,-53.743,voluntaria,1,municipio,NA
+2025/2026,2025-11-23,Serranópolis do Iguaçu,4126355,-25.38,-54.052,comercial,1,municipio,NA
+2025/2026,2025-11-24,Terra Roxa,4127403,-24.157,-54.097,comercial,1,municipio,NA
+2025/2026,2025-11-27,Goioerê,4108601,-24.185,-53.028,comercial,1,municipio,NA
+2025/2026,2025-11-28,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2025/2026,2025-11-29,Prudentópolis,4120606,-25.213,-50.978,comercial,1,municipio,NA
+2025/2026,2025-11-30,Corbélia,4106308,-24.799,-53.307,comercial,1,municipio,NA
+2025/2026,2025-12-02,Cascavel,4104808,-24.956,-53.455,comercial,2,municipio,NA
+2025/2026,2025-12-02,São Miguel do Iguaçu,4125704,-25.4638892,-54.2775645,comercial,1,propria,Linha Bandeirantes
+2025/2026,2025-12-03,Campina da Lagoa,4103909,-24.592,-52.799,comercial,1,municipio,NA
+2025/2026,2025-12-04,Santana do Itararé,4124004,-23.758692,-49.629314,comercial,1,propria,NA
+2025/2026,2025-12-05,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2025/2026,2025-12-05,Pitanga,4119608,-24.757,-51.761,voluntaria,1,municipio,NA
+2025/2026,2025-12-06,Prudentópolis,4120606,-24.871947,-51.171485,comercial,1,propria,NA
+2025/2026,2025-12-09,Anahy,4101051,-24.644,-53.135,comercial,1,municipio,NA
+2025/2026,2025-12-10,Cascavel,4104808,-24.956,-53.455,comercial,1,municipio,NA
+2025/2026,2025-12-10,Santa Helena,4123501,-24.86,-54.333,comercial,1,municipio,NA
+2025/2026,2025-12-10,São Miguel do Iguaçu,4125704,-25.348,-54.238,comercial,2,municipio,NA
+2025/2026,2025-12-11,Toledo,4127700,-24.714,-53.743,comercial,1,municipio,NA
+2025/2026,2025-12-12,Arapoti,4101606,-24.158,-49.827,comercial,1,municipio,NA
+2025/2026,2025-12-12,Vitorino,4128708,-26.277,-52.784,comercial,2,municipio,NA
+2025/2026,2025-12-15,Barracão,4102604,-26.254,-53.633,comercial,1,municipio,NA
+2025/2026,2025-12-15,Cafelândia,4103453,-24.618,-53.32,comercial,1,municipio,NA
+2025/2026,2025-12-15,Capanema,4104501,-25.672,-53.809,comercial,1,municipio,NA
+2025/2026,2025-12-16,Cafelândia,4103453,-24.618,-53.32,comercial,1,municipio,NA
+2025/2026,2025-12-16,Cândido de Abreu,4104402,-24.567,-51.333,comercial,2,municipio,NA
+2025/2026,2025-12-16,Mariópolis,4115309,-26.355,-52.559,comercial,1,municipio,NA
+2025/2026,2025-12-16,Nova Aurora,4116703,-24.529,-53.256,comercial,1,municipio,NA
+2025/2026,2025-12-16,Tupãssi,4127957,-24.588,-53.512,comercial,1,municipio,NA
+2025/2026,2025-12-17,Anahy,4101051,-24.644,-53.135,comercial,1,municipio,NA
+2025/2026,2025-12-17,Roncador,4122503,-24.603,-52.275,comercial,1,municipio,NA
+2025/2026,2025-12-18,Araruna,4101705,-23.932,-52.496,comercial,2,municipio,NA
+2025/2026,2025-12-18,Palotina,4117909,-24.284,-53.84,comercial,3,municipio,NA
+2025/2026,2025-12-19,Assis Chateaubriand,4102000,-24.42,-53.521,comercial,1,municipio,NA
+2025/2026,2025-12-19,Formosa do Oeste,4108205,-24.293,-53.313,comercial,1,municipio,NA
+2025/2026,2025-12-19,Iracema do Oeste,4110656,-24.428,-53.355,comercial,1,municipio,NA
+2025/2026,2025-12-19,Ivatuba,4111605,-23.619,-52.221,comercial,1,municipio,NA
+2025/2026,2025-12-19,Jesuítas,4112751,-24.385,-53.388,comercial,1,municipio,NA
+2025/2026,2025-12-19,São Pedro do Iguaçu,4125753,-24.936,-53.855,comercial,2,municipio,NA
+2025/2026,2025-12-19,Ubiratã,4128005,-24.545,-52.988,comercial,2,municipio,NA
+2025/2026,2025-12-20,Jardim Alegre,4112504,-24.179,-51.692,comercial,1,municipio,NA
+2025/2026,2025-12-22,Palotina,4117909,-24.284,-53.84,comercial,3,municipio,NA
+2025/2026,2025-12-23,Coronel Vivida,4106506,-25.98,-52.568,comercial,2,municipio,NA
+2025/2026,2025-12-23,Formosa do Oeste,4108205,-24.293,-53.313,comercial,1,municipio,NA
+2025/2026,2025-12-23,Juranda,4112959,-24.42,-52.843,comercial,2,municipio,NA
+2025/2026,2025-12-26,Boa Esperança,4103008,-24.242,-52.789,comercial,1,municipio,NA
+2025/2026,2025-12-26,Capitão Leônidas Marques,4104600,-25.479,-53.614,comercial,1,municipio,NA
+2025/2026,2025-12-27,Prudentópolis,4120606,-24.878333,-51.20075,comercial,1,propria,NA
+2025/2026,2025-12-29,Iracema do Oeste,4110656,-24.428,-53.355,comercial,1,municipio,NA
+2025/2026,2025-12-29,Luiziana,4113734,-24.286,-52.276,comercial,2,municipio,NA
+2025/2026,2025-12-29,Palotina,4117909,-24.284,-53.84,comercial,3,municipio,NA
+2025/2026,2025-12-30,Arapoti,4101606,-24.196,-49.878,comercial,1,propria,"R44F+QJ Arapoti, Paraná"
+2025/2026,2025-12-30,Campo Mourão,4104303,-24.046,-52.383,comercial,1,municipio,NA
+2025/2026,2025-12-30,Ivaiporã,4111506,-24.248,-51.685,comercial,1,municipio,NA
+2025/2026,2025-12-30,Manoel Ribas,4114500,-24.516,-51.668,comercial,1,municipio,NA
+2025/2026,2025-12-30,Pérola do Oeste,4119004,-25.824,-53.74,comercial,1,municipio,NA
+2025/2026,2026-01-02,Irati,4110706,-25.498333,-50.776417,comercial,1,propria,NA
+2025/2026,2026-01-02,Irati,4110706,-25.474667,-50.882222,comercial,1,propria,NA
+2025/2026,2026-01-06,Marechal Cândido Rondon,4114609,-24.556,-54.057,comercial,2,municipio,NA
+2025/2026,2026-01-06,Reserva,4121703,-24.65,-50.851,comercial,1,municipio,NA
+2025/2026,2026-01-07,Boa Ventura de São Roque,4103040,-24.869,-51.628,comercial,1,municipio,NA
+2025/2026,2026-01-07,Candói,4104428,-25.570833,-52.052778000000004,comercial,1,municipio,NA
+2025/2026,2026-01-07,Londrina,4113700,-23.31,-51.163,comercial,1,municipio,NA
+2025/2026,2026-01-07,Maripá,4115358,-24.402215,-53.892952,comercial,1,propria,NA
+2025/2026,2026-01-07,Nova Esperança do Sudoeste,4116950,-25.907,-53.263,comercial,1,municipio,NA
+2025/2026,2026-01-07,Palotina,4117909,-24.284,-53.84,comercial,1,municipio,NA
+2025/2026,2026-01-07,São João do Ivaí,4125001,-23.98,-51.818,comercial,1,municipio,NA
+2025/2026,2026-01-07,Turvo,4127965,-25.043,-51.53,comercial,1,municipio,NA
+2025/2026,2026-01-08,Capitão Leônidas Marques,4104600,-25.479,-53.614,comercial,1,municipio,NA
+2025/2026,2026-01-08,Mangueirinha,4114401,-25.941,-52.176,comercial,1,municipio,NA
+2025/2026,2026-01-08,Manoel Ribas,4114500,-24.516,-51.668,comercial,1,municipio,NA
+2025/2026,2026-01-08,Pitanga,4119608,-24.757,-51.761,comercial,1,municipio,NA
+2025/2026,2026-01-08,Ponta Grossa,4119905,-25.095,-50.162,voluntaria,1,municipio,NA
+2025/2026,2026-01-08,Santa Lúcia,4123824,-25.407,-53.566,comercial,1,municipio,NA
+2025/2026,2026-01-09,Clevelândia,4105706,-26.396,-52.471,comercial,1,municipio,NA
+2025/2026,2026-01-09,Goioxim,4108650,-25.195,-51.993,comercial,1,municipio,NA
+2025/2026,2026-01-09,Irati,4110706,-25.418856,-50.702909,comercial,1,propria,NA
+2025/2026,2026-01-09,Irati,4110706,-24.878333,-51.20075,comercial,1,propria,NA
+2025/2026,2026-01-09,Palmas,4117602,-26.484,-51.991,comercial,1,municipio,NA
+2025/2026,2026-01-09,Peabiru,4118808,-23.913,-52.343,comercial,1,municipio,NA
+2025/2026,2026-01-09,Santa Lúcia,4123824,-25.407,-53.566,comercial,1,municipio,NA
+2025/2026,2026-01-09,Tamarana,4126678,-23.723,-51.097,comercial,1,municipio,NA
+2025/2026,2026-01-12,Realeza,4121406,-25.767,-53.527,comercial,1,municipio,NA
+2025/2026,2026-01-13,Capitão Leônidas Marques,4104600,-25.479,-53.614,comercial,1,municipio,NA
+2025/2026,2026-01-13,Iretama,4110805,-24.424,-52.106,comercial,1,municipio,NA
+2025/2026,2026-01-13,Marechal Cândido Rondon,4114609,-24.556,-54.057,comercial,2,municipio,NA
+2025/2026,2026-01-13,Santa Isabel do Ivaí,4123709,-23.003,-53.197,comercial,1,municipio,NA
+2025/2026,2026-01-14,Capitão Leônidas Marques,4104600,-25.479,-53.614,comercial,1,municipio,NA
+2025/2026,2026-01-14,Maringá,4115200,-23.425,-51.939,comercial,1,municipio,NA
+2025/2026,2026-01-15,Assaí,4101903,-23.373,-50.841,comercial,1,municipio,NA
+2025/2026,2026-01-15,Marechal Cândido Rondon,4114609,-24.556,-54.057,comercial,1,municipio,NA
+2025/2026,2026-01-16,Nova Tebas,4117271,-24.438,-51.945,comercial,1,municipio,NA
+2025/2026,2026-01-19,Braganey,4103354,-24.816,-53.122,comercial,1,municipio,NA
+2025/2026,2026-01-19,Brasilândia do Sul,4103370,-24.197,-53.525,comercial,1,municipio,NA
+2025/2026,2026-01-19,Campo Bonito,4104055,-25.031,-52.993,comercial,1,municipio,NA
+2025/2026,2026-01-19,Catanduvas,4105003,-25.203,-53.157,comercial,1,municipio,NA
+2025/2026,2026-01-19,Guarapuava,4109401,-25.395,-51.458,comercial,1,municipio,NA
+2025/2026,2026-01-19,Ponta Grossa,4119905,-25.095,-50.162,comercial,1,municipio,NA
+2025/2026,2026-01-19,Quarto Centenário,4120655,-24.279,-53.076,comercial,1,municipio,NA
+2025/2026,2026-01-20,Brasilândia do Sul,4103370,-24.197,-53.525,comercial,1,municipio,NA
+2025/2026,2026-01-20,Reserva do Iguaçu,4121752,-25.839,-52.028,comercial,1,municipio,NA
+2025/2026,2026-01-21,Ponta Grossa,4119905,-25.095,-50.162,comercial,1,municipio,NA
+2025/2026,2026-01-23,Santa Maria do Oeste,4123857,-24.939,-51.863,comercial,1,municipio,NA
+2025/2026,2026-01-25,Pitanga,4119608,-24.757,-51.761,comercial,1,municipio,NA
+2025/2026,2026-01-26,Ponta Grossa,4119905,-25.095,-50.162,comercial,1,municipio,NA
+2025/2026,2026-01-28,Mariluz,4115101,-24.002,-53.146,comercial,1,municipio,NA
+2025/2026,2026-01-29,Ariranha do Ivaí,4101853,-24.386,-51.585,comercial,2,municipio,NA
+2025/2026,2026-01-29,Pitanga,4119608,-24.757,-51.761,comercial,1,municipio,NA
+2025/2026,2026-02-04,Santo Inácio,4124509,-22.698,-51.794,comercial,1,municipio,NA
+2025/2026,2026-02-05,Quinta do Sol,4121109,-23.852,-52.13,comercial,1,municipio,NA
+2025/2026,2026-02-10,Cafeara,4103404,-22.793,-51.716,comercial,1,municipio,NA
+2025/2026,2026-02-11,Campina do Simão,4103958,-25.194,-51.676,comercial,1,propria,Fazenda Vô Zeno
+2025/2026,2026-02-11,Candói,4104428,-25.233,-51.504,comercial,1,propria,Fazenda Capão Redondo
+2025/2026,2026-02-11,Candói,4104428,-25.663,-52.057,comercial,1,propria,Fazenda Casa Branca
+2025/2026,2026-02-11,Guarapuava,4109401,-25.194,-51.331,comercial,1,propria,Fazenda Capão Rico
+2025/2026,2026-02-11,Manoel Ribas,4114500,-24.351,-51.393,comercial,1,propria,Fazenda Barra Preta I
+2025/2026,2026-02-11,Pitanga,4119608,-24.36,-51.43,comercial,1,propria,Fazenda Bom Retiro
+2025/2026,2026-02-11,Reserva,4121703,-25.512,-51.551,comercial,1,propria,Butiá
+2025/2026,2026-02-11,Santa Maria do Oeste,4123857,-24.491,-51.583,comercial,1,propria,IBEMA
+2025/2026,2026-02-13,Cantagalo,4104451,-25.236,-52.087,comercial,1,propria,Fazenda Três Lagoas
+2025/2026,2026-02-17,Manoel Ribas,4114500,-24.594,-51.655,comercial,1,propria,Fazenda Barra Preta I
+2025/2026,2026-02-17,Manoel Ribas,4114500,-24.344,-51.395,comercial,1,propria,Fazenda Barra Preta I
+2025/2026,2026-02-17,Pinhão,4119301,-25.653,-51.859,comercial,1,propria,NA
+2025/2026,2026-02-17,Pitanga,4119608,-24.362,-51.421,comercial,1,propria,Fazenda Bom Retiro
+2025/2026,2026-02-17,Pitanga,4119608,-24.353,-51.412,comercial,1,propria,Fazenda Bom Retiro
+2025/2026,2026-02-18,Candói,4104428,-25.392,-51.8454,comercial,1,propria,Fazenda Capão Redondo
+2025/2026,2026-02-18,Candói,4104428,-25.392,-51.845,comercial,1,propria,Fazenda Capão Redondo
+2025/2026,2026-02-18,Pinhão,4119301,-25.826,-51.931,comercial,1,propria,Butiá
+2025/2026,2026-02-18,Turvo,4127965,-25.043,-51.53,comercial,1,municipio,NA
+2025/2026,2026-02-19,Candói,4104428,-25.663,-52.057,comercial,1,propria,Fazenda Casa Branca
+2025/2026,2026-02-19,Guarapuava,4109401,-25.195,-51.29,comercial,1,propria,Fazenda Betel
+2025/2026,2026-02-19,Guarapuava,4109401,-25.329,-51.555,comercial,2,propria,Fazenda Capão Rico
+2025/2026,2026-02-19,Guarapuava,4109401,-25.21,-51.351,comercial,1,propria,Fazenda Lanceta
+2025/2026,2026-02-19,Santa Maria do Oeste,4123857,-24.812,-51.966,comercial,2,propria,Festugato
+2025/2026,2026-02-20,Goioxim,4108650,-25.295,-51.809,comercial,2,propria,Fazenda Dida
+2025/2026,2026-02-22,Goioxim,4108650,-25.295,-51.809,comercial,1,propria,Fazenda Dida
