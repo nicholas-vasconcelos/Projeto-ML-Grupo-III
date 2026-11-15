@@ -12,7 +12,10 @@
 
 - Mesmos dados (`treino`), mesma validação (deixando uma safra de fora) e mesmas métricas (Seção 7.3).
 - **Desbalanceamento:** os casos positivos recebem peso maior (peso = nº negativos / nº positivos), para que o
-  limiar de 0,5 faça sentido.
+  probabilidades fiquem numa escala comparável.
+- **Limiar de decisão** (`LIMIAR = "otimo"`): escolhido para maximizar o F1 por validação **aninhada** — em
+  cada fold, só as safras de treino daquele fold são usadas para escolher o limiar. Para o teste, o limiar é escolhido
+  nas previsões fora da amostra das 5 safras de treino. A busca de hiperparâmetros usa AUC-PR, que não depende do limiar.
 - **Dois conjuntos de atributos** para cada modelo:
   - `clima` — só os atributos climáticos defasados (`ATR_CLIMA`);
   - `clima + contexto` — clima + ponto, semana da safra e casos anteriores (`ATR_CONTEXTO`).
@@ -67,7 +70,7 @@ ajusta_logistica <- function(atributos, alpha = 0.5) {
 cv_log <- list()
 for (nome in names(CONJUNTOS)) {
   cat("\n=== Logística elastic net —", nome, "===\n")
-  cv_log[[nome]] <- validacao_por_safra(treino, ajusta_logistica(CONJUNTOS[[nome]]))
+  cv_log[[nome]] <- validacao_por_safra(treino, ajusta_logistica(CONJUNTOS[[nome]]), limiar = LIMIAR)
   registra_resultado(paste("Logística elastic net —", nome), "grupo", "cv_treino", cv_log[[nome]])
 }
 
@@ -119,15 +122,14 @@ grade_rf <- tidyr::crossing(mtry = c(3, 6, 12), min_no = c(5, 20))
 cv_rf <- list(); melhor_rf <- list()
 for (nome in names(CONJUNTOS)) {
   res <- grade_rf |> mutate(auc_pr = pmap_dbl(list(mtry, min_no), function(mt, mn) {
-    r <- suppressWarnings(capture.output(
-      v <- validacao_por_safra(treino, ajusta_floresta(CONJUNTOS[[nome]], mt, mn))))
+    v <- validacao_por_safra(treino, ajusta_floresta(CONJUNTOS[[nome]], mt, mn), mostrar = FALSE)
     mean(v$auc_pr, na.rm = TRUE)
   }))
   melhor_rf[[nome]] <- slice_max(res, auc_pr, n = 1, with_ties = FALSE)
   cat("\n=== Floresta aleatória —", nome, "| melhor:", "mtry =", melhor_rf[[nome]]$mtry,
       "min.node.size =", melhor_rf[[nome]]$min_no, "===\n")
   cv_rf[[nome]] <- validacao_por_safra(
-    treino, ajusta_floresta(CONJUNTOS[[nome]], melhor_rf[[nome]]$mtry, melhor_rf[[nome]]$min_no))
+    treino, ajusta_floresta(CONJUNTOS[[nome]], melhor_rf[[nome]]$mtry, melhor_rf[[nome]]$min_no), limiar = LIMIAR)
   registra_resultado(paste("Floresta aleatória —", nome), "grupo", "cv_treino", cv_rf[[nome]])
 }
 
@@ -187,14 +189,14 @@ grade_xgb <- tidyr::crossing(max_depth = c(2, 3), nrounds = c(100, 300))
 cv_xgb <- list(); melhor_xgb <- list()
 for (nome in names(CONJUNTOS)) {
   res <- grade_xgb |> mutate(auc_pr = pmap_dbl(list(max_depth, nrounds), function(md, nr) {
-    r <- capture.output(v <- validacao_por_safra(treino, ajusta_xgb(CONJUNTOS[[nome]], md, nr)))
+    v <- validacao_por_safra(treino, ajusta_xgb(CONJUNTOS[[nome]], md, nr), mostrar = FALSE)
     mean(v$auc_pr, na.rm = TRUE)
   }))
   melhor_xgb[[nome]] <- slice_max(res, auc_pr, n = 1, with_ties = FALSE)
   cat("\n=== XGBoost —", nome, "| melhor: max_depth =", melhor_xgb[[nome]]$max_depth,
       "nrounds =", melhor_xgb[[nome]]$nrounds, "===\n")
   cv_xgb[[nome]] <- validacao_por_safra(
-    treino, ajusta_xgb(CONJUNTOS[[nome]], melhor_xgb[[nome]]$max_depth, melhor_xgb[[nome]]$nrounds))
+    treino, ajusta_xgb(CONJUNTOS[[nome]], melhor_xgb[[nome]]$max_depth, melhor_xgb[[nome]]$nrounds), limiar = LIMIAR)
   registra_resultado(paste("XGBoost —", nome), "grupo", "cv_treino", cv_xgb[[nome]])
 }
 
@@ -214,7 +216,7 @@ todos_cv <- bind_rows(
 
 comparacao <- todos_cv |>
   group_by(modelo, conjunto) |>
-  summarise(across(c(auc_roc, auc_pr, f1, precisao, revocacao, brier), ~ round(mean(.x, na.rm = TRUE), 3)),
+  summarise(across(c(auc_roc, auc_pr, f1, precisao, revocacao, brier, limiar), ~ round(mean(.x, na.rm = TRUE), 3)),
             .groups = "drop") |>
   arrange(desc(auc_pr))
 comparacao
@@ -262,8 +264,12 @@ ajustadores_finais <- list(
 )
 
 prob_teste <- lapply(ajustadores_finais, function(f) f(treino, teste))
+# limiar de cada modelo: escolhido só com o treino (previsões fora da amostra das 5 safras)
+limiares_teste <- lapply(ajustadores_finais, function(f)
+  if (identical(LIMIAR, "otimo")) limiar_otimo(treino, f) else LIMIAR)
 res_teste <- bind_rows(lapply(names(prob_teste), function(n)
-  metricas(prob_teste[[n]], teste$ocorrencia) |> mutate(modelo = n, .before = 1)))
+  metricas(prob_teste[[n]], teste$ocorrencia, limiares_teste[[n]]) |>
+    mutate(modelo = n, limiar = limiares_teste[[n]], .before = 1)))
 res_teste |> mutate(across(where(is.numeric), ~ round(.x, 3)))
 
 for (n in names(prob_teste)) registra_resultado(n, "grupo", "teste_2025_26", res_teste |> filter(modelo == n))

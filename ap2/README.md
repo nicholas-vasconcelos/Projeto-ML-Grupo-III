@@ -3,7 +3,8 @@
 [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nicholas-vasconcelos/Projeto-ML-Grupo-III/blob/master/ap2/AP2_preparacao_dados.ipynb)
 
 Notebook em **R** (Google Colab) que monta a base da AP2 e treina os modelos de classificação:
-dado o clima das semanas anteriores, haverá caso de ferrugem-asiática a até 75 km de um ponto climático naquela semana?
+dado o clima e a situação epidemiológica das semanas anteriores, haverá caso de ferrugem-asiática a até **150 km** de um
+ponto climático **nesta semana ou na próxima**? (Alvo secundário: a até 75 km, só na semana.)
 
 ## Como usar
 
@@ -18,13 +19,15 @@ dado o clima das semanas anteriores, haverá caso de ferrugem-asiática a até 7
 | Caminho | Descrição |
 |---|---|
 | `AP2_preparacao_dados.ipynb` | o notebook (coleta → tabela ponto × semana → 3 modelos → teste final) |
-| `dados/tabela_ponto_semana.csv` | base de treinamento: 7 pontos × 6 safras × 26 semanas = 1.092 linhas |
+| `dados/tabela_ponto_semana.csv` | base de treinamento: 7 pontos × 6 safras × 26 semanas = 1.092 linhas (alvo principal e secundário) |
+| `dados/esporos_pr_2020_2026.csv` | registros de armadilhas de esporos e unidades de alerta (atributos de sinal precoce) |
 | `dados/ocorrencias_pr_2020_2026.csv` | casos de ferrugem do Consórcio Antiferrugem, safras 2020/21 a 2025/26 |
 | `dados/clima_diario_7_pontos.csv` | clima diário (NASA POWER, agregado de dados horários) dos 7 pontos |
+| `fonte/exportar_resultados.R` | roda o notebook e exporta resultados, estatística inferencial, ablação e comparação de alvos |
 | `fonte/` | arquivos-fonte do notebook; edite os `.Rnb.txt` e rode `python construir_notebook.py` para gerar o `.ipynb` e o `.R` |
 
 ## Modelos
 
 Regressão logística elastic net (`glmnet`), floresta aleatória (`ranger`) e XGBoost (`xgboost`), comparados com uma
-linha de base que usa só calendário e região. Validação cruzada deixando uma safra de fora (2020/21–2024/25) e
-teste final na safra 2025/26.
+linha de base que usa só calendário e região. Validação cruzada deixando uma safra de fora (2020/21–2024/25), limiar
+de decisão escolhido para maximizar o F1 (validação aninhada) e teste final na safra 2025/26.

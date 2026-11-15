@@ -7,7 +7,8 @@
 # e então treinar o seu próprio modelo na Seção 8 (regressão logística, floresta aleatória, etc.).
 # 
 # **Pergunta de pesquisa:** dado o clima das semanas anteriores, haverá pelo menos um caso de ferrugem-asiática
-# (ocorrência comercial) a até 75 km de um ponto climático em uma determinada semana da safra?
+# (ocorrência comercial) a até **150 km** de um ponto climático **nesta semana ou na próxima**?
+# (Alvo secundário, da versão 1: a até 75 km, só nesta semana — coluna `ocorrencia_75km_1sem`.)
 # 
 # | Seção | O que faz | Tempo aprox. |
 # |---|---|---|
@@ -65,10 +66,13 @@ dir.create(PASTA_FIG, recursive = TRUE, showWarnings = FALSE)
 SAFRAS <- c("2020/2021" = 33, "2021/2022" = 34, "2022/2023" = 35,
             "2023/2024" = 36, "2024/2025" = 38, "2025/2026" = 40)
 
-RAIO_KM        <- 75      # raio de associação caso -> ponto (igual à AP1)
+RAIO_KM        <- 75      # raio de associação caso -> ponto (igual à AP1; usado nos esporos e no alvo secundário)
+RAIO_ALVO_KM   <- 150     # ALVO: caso comercial a até este raio do ponto...
+HORIZONTE_SEM  <- 2       # ...nesta semana ou nas próximas (HORIZONTE_SEM - 1) semanas
 JANELAS_DIAS   <- c(7, 14) # janelas de clima ANTES de cada semana (atributos defasados)
 SAFRA_TESTE    <- "2025/2026"  # safra separada como teste final (ver Seção 7)
 TIPOS_ALVO     <- "comercial"  # tipo de ocorrência usado como alvo
+LIMIAR         <- "otimo"      # limiar de decisão: "otimo" (maximiza F1, escolhido só no treino) ou um número, ex. 0.5
 
 options(dplyr.summarise.inform = FALSE, readr.show_col_types = FALSE)
 cat("Pasta de trabalho:", normalizePath(PASTA), "\n")
@@ -88,13 +92,15 @@ cat("Modo:", if (PULAR_PREPROCESSAMENTO) "RÁPIDO (dados prontos do GitHub; Seç
 # Depois desta célula pode rodar tudo em ordem: as células das Seções 1 a 6 vão só avisar que foram puladas.
 
 if (PULAR_PREPROCESSAMENTO) {
-  for (arq in c("tabela_ponto_semana.csv", "ocorrencias_pr_2020_2026.csv", "clima_diario_7_pontos.csv")) {
+  for (arq in c("tabela_ponto_semana.csv", "ocorrencias_pr_2020_2026.csv", "clima_diario_7_pontos.csv",
+                "esporos_pr_2020_2026.csv")) {
     download.file(file.path(URL_DADOS, arq), file.path(PASTA, arq), quiet = TRUE, mode = "wb")
     cat("Baixado:", arq, "\n")
   }
   tabela       <- read_csv(file.path(PASTA, "tabela_ponto_semana.csv"))
   ocorrencias  <- read_csv(file.path(PASTA, "ocorrencias_pr_2020_2026.csv"))
   clima_diario <- read_csv(file.path(PASTA, "clima_diario_7_pontos.csv"))
+  esporos      <- read_csv(file.path(PASTA, "esporos_pr_2020_2026.csv"))
   cat(sprintf("\nTabela ponto × semana: %d linhas x %d colunas. Pode seguir para a Seção 7.\n",
               nrow(tabela), ncol(tabela)))
 } else {
@@ -169,13 +175,13 @@ linhas_pr <- function(resp) {
 }
 
 # Bissecção: guarda em `dias` (environment) a resposta agrupa=0 de cada dia com registro
-bisseccao <- function(safra_id, ini, fim, dias) {
-  resp <- consulta(safra_id, ini, fim, 0)
+bisseccao <- function(safra_id, ini, fim, dias, tipos = "(3,1)") {
+  resp <- consulta(safra_id, ini, fim, 0, tipos)
   if (length(linhas_pr(resp)) == 0) return(invisible())
   if (ini == fim) { assign(format(ini), resp, envir = dias); return(invisible()) }
   meio <- ini + floor(as.numeric(fim - ini) / 2)
-  bisseccao(safra_id, ini, meio, dias)
-  bisseccao(safra_id, meio + 1, fim, dias)
+  bisseccao(safra_id, ini, meio, dias, tipos)
+  bisseccao(safra_id, meio + 1, fim, dias, tipos)
 }
 
 }
@@ -297,6 +303,57 @@ print(ocorrencias |> filter(tipo == "comercial") |>
 
 }
 
+# ### 1.3 Armadilhas de esporos e unidades de alerta (sinal precoce)
+# 
+# O Consórcio também registra **presença de esporos** (tipo 4, coletores/armadilhas) e **unidades de alerta** (tipo 5).
+# Eles não são casos em lavoura comercial — por isso não entram no alvo —, mas indicam que o fungo já está circulando
+# e costumam aparecer **antes** das detecções comerciais. São usados como atributos (Seção 6), sempre com dados
+# **anteriores** à semana prevista. A data de cada registro é obtida pela mesma bissecção da Seção 1.2.
+# 
+# > **Atenção (mudança de monitoramento):** o número de registros de esporos é baixo até 2024/25 (≈ 20 por safra) e
+# > salta em 2025/26 (> 100). Esse aumento reflete mais armadilhas instaladas, não necessariamente mais doença — e
+# > 2025/26 é justamente a safra de teste. Discuta isso em Ameaças à Validade.
+
+if (PULAR_PREPROCESSAMENTO) {
+  cat("Pulado (modo rápido): dados já baixados do GitHub na Seção 0.1.\n")
+} else {
+
+ARQ_ESPOROS <- file.path(PASTA, "esporos_pr_2020_2026.csv")
+NOME_TIPO_ESP <- c("4" = "esporos", "5" = "unidade_alerta")
+
+baixar_esporos <- function() {
+  regs <- list()
+  for (safra in names(SAFRAS)) {
+    sid <- SAFRAS[[safra]]
+    anos <- as.integer(strsplit(safra, "/")[[1]])
+    ini <- as.Date(sprintf("%d-07-01", anos[1])); fim <- as.Date(sprintf("%d-06-30", anos[2]))
+    dias <- new.env()
+    bisseccao(sid, ini, fim, dias, tipos = "(5,4)")
+    for (d in sort(ls(dias))) {
+      for (o in linhas_pr(get(d, envir = dias))) {
+        if (!(o$tipo %in% c(4, 5))) next
+        regs[[length(regs) + 1]] <- tibble(
+          safra = safra, data = as.Date(d), municipio = o$nome, codigo_ibge = o$id,
+          latitude = o$clatitude, longitude = o$clongitude,
+          tipo = NOME_TIPO_ESP[[as.character(o$tipo)]], n_registros = o$qtdgeral)
+      }
+    }
+    cat(sprintf("Safra %s: %d dias com esporos/alerta\n", safra, length(ls(dias))))
+  }
+  bind_rows(regs) |> arrange(safra, data, municipio)
+}
+
+if (file.exists(ARQ_ESPOROS) && !REBAIXAR) {
+  esporos <- read_csv(ARQ_ESPOROS)
+} else {
+  esporos <- baixar_esporos()
+  write_csv(esporos, ARQ_ESPOROS)
+}
+print(esporos |> count(safra, tipo, wt = n_registros) |>
+        tidyr::pivot_wider(names_from = tipo, values_from = n, values_fill = 0))
+
+}
+
 # ## 2. Pontos climáticos
 # 
 # Os sete pontos são os mesmos da AP1. Eles foram escolhidos resolvendo o **problema de máxima cobertura**
@@ -407,7 +464,9 @@ clima_diario <- clima_horario |>
             vpd             = mean(vpd),
             chuva           = sum(PRECTOTCORR),
             radiacao        = sum(ALLSKY_SFC_SW_DWN),   # MJ/m²/dia
-            horas_ur90      = sum(RH2M >= 90)) |>
+            horas_ur90      = sum(RH2M >= 90),
+            # condição de infecção: molhamento (UR >= 90%) E temperatura favorável (15-28 °C) na mesma hora
+            horas_infeccao  = sum(RH2M >= 90 & T2M >= 15 & T2M <= 28)) |>
   ungroup() |>
   filter(n_horas == 24)
 
@@ -420,7 +479,8 @@ print(summary(select(clima_diario, -ponto, -data, -n_horas)))
 # ## 5. Associação dos casos aos pontos e às semanas da safra
 # 
 # - **Casos usados no alvo:** ocorrências **comerciais** com data (a soja voluntária fica de fora, como na AP1).
-# - **Ponto:** cada caso vai para o ponto mais próximo (distância de Haversine), se estiver a até 75 km.
+# - **Ponto:** cada caso vai para o ponto mais próximo (distância de Haversine), se estiver a até 75 km. Esta associação
+#   serve ao alvo secundário; o alvo principal (Seção 6) conta todos os casos a até 150 km de cada ponto.
 # - **Semana da safra:** a janela de cada safra é de 1º de outubro a 31 de março (≈ 99,7% das detecções), dividida em
 #   **26 semanas** de 7 dias contadas a partir de 1º de outubro (semana 1 = 1–7/out).
 
@@ -468,8 +528,16 @@ print(casos |> summarise(casos_com_data   = sum(n_casos),
 # 
 # **Alvos**
 # 
-# - `ocorrencia` — 1 se houve ≥ 1 caso comercial no raio do ponto naquela semana, 0 caso contrário (**classificação**);
-# - `n_casos` — número de casos (para quem quiser comparar com um modelo de contagem, ex.: Poisson).
+# - **`ocorrencia` (alvo principal)** — 1 se houve ≥ 1 caso comercial **a até 150 km** do ponto **nesta semana ou na
+#   próxima**, 0 caso contrário (**classificação**). É um alerta regional de 2 semanas: "a ferrugem vai aparecer nesta
+#   região nas próximas duas semanas?". Com 150 km um caso pode contar para mais de um ponto.
+# - `n_casos` — casos a até 150 km do ponto **nesta** semana (para um modelo de contagem, ex.: Poisson).
+# - `ocorrencia_75km_1sem`, `n_casos_75km` — **alvo secundário** (definição da versão 1): caso a até 75 km (ponto mais
+#   próximo), só nesta semana. É uma pergunta mais difícil (alvo mais ruidoso); use-o para comparar.
+# 
+# Por que 150 km e 2 semanas? Com o alvo da versão 1 (75 km, 1 semana), o F1 dos melhores modelos ficou em ~0,5–0,6:
+# o alvo é muito ruidoso (a semana exata e o local exato do registro dependem do envio de amostras). Ampliar o raio e o
+# horizonte torna o alvo mais estável e mais útil como alerta regional.
 # 
 # **Atributos climáticos defasados** — calculados nos **7 e 14 dias ANTES** do início da semana (sufixos `_7d`, `_14d`).
 # Usar só o clima anterior evita vazamento de informação: na prática, a previsão seria feita no início da semana.
@@ -484,6 +552,7 @@ print(casos |> summarise(casos_com_data   = sum(n_casos),
 # | `horas_ur90` | total de horas com UR ≥ 90% (proxy de molhamento foliar — H2) |
 # | `dias_molhamento` | dias com ≥ 10 h de UR ≥ 90% |
 # | `dias_temp_fav` | dias com temperatura média entre 15 e 28 °C (faixa favorável à doença) |
+# | `horas_infeccao` | horas com UR ≥ 90% **e** temperatura entre 15 e 28 °C na mesma hora — a condição de infecção (também em janela de **21 dias**: `horas_infeccao_21d`) |
 # | `radiacao_media` | radiação média diária (MJ/m²) |
 # 
 # **Atributos de contexto** (use, ou não, conforme o modelo):
@@ -494,6 +563,8 @@ print(casos |> summarise(casos_com_data   = sum(n_casos),
 # | `semana`, `mes` | calendário — também servem para o **modelo de referência** (só sazonalidade) |
 # | `casos_antes_ponto` | casos no raio do ponto **antes** desta semana, na mesma safra (fonte de inóculo) |
 # | `casos_estado_sem_ant` | casos comerciais no Paraná inteiro na semana anterior |
+# | `esporos_raio_2sem` | registros de esporos/unidades de alerta a até 75 km do ponto nos 14 dias anteriores (sinal precoce) |
+# | `esporos_estado_2sem` | registros de esporos/unidades de alerta no Paraná inteiro nos 14 dias anteriores |
 
 if (PULAR_PREPROCESSAMENTO) {
   cat("Pulado (modo rápido): dados já baixados do GitHub na Seção 0.1.\n")
@@ -508,10 +579,18 @@ grade <- tidyr::crossing(pontos |> select(ponto, mesorregiao),
          mes           = month(inicio_semana + 3))   # mês do meio da semana
 
 # ---- 6.2 Alvos --------------------------------------------------------------
-alvo <- casos |>
-  filter(no_raio, na_janela) |>
+# Casos a até RAIO_ALVO_KM de cada ponto, por semana (com 150 km, um caso pode contar para mais de um ponto)
+alvo <- tidyr::crossing(casos |> filter(na_janela) |> select(caso_id, safra, semana, latitude, longitude, n_casos),
+                        select(pontos, ponto, lat, lon)) |>
+  filter(haversine_km(latitude, longitude, lat, lon) <= RAIO_ALVO_KM) |>
   group_by(ponto, safra, semana) |>
   summarise(n_casos = sum(n_casos), .groups = "drop")
+
+# Alvo secundário (definição da versão 1): caso a até 75 km (ponto mais próximo), só nesta semana
+alvo_75 <- casos |>
+  filter(no_raio, na_janela) |>
+  group_by(ponto, safra, semana) |>
+  summarise(n_casos_75km = sum(n_casos), .groups = "drop")
 
 # casos do estado (todos os casos comerciais com data, dentro ou fora do raio) por safra/semana
 estado <- casos |>
@@ -532,6 +611,7 @@ resumo_janela <- function(d) {
          horas_ur90      = sum(d$horas_ur90),
          dias_molhamento = sum(d$horas_ur90 >= 10),
          dias_temp_fav   = sum(d$temperatura >= 15 & d$temperatura <= 28),
+         horas_infeccao  = sum(d$horas_infeccao),
          radiacao_media  = mean(d$radiacao),
          n_dias          = nrow(d))
 }
@@ -553,20 +633,50 @@ atributos_janela <- function(dias) {
 clima_defasado <- reduce(lapply(JANELAS_DIAS, atributos_janela),
                          left_join, by = c("ponto", "safra", "semana"))
 
+# janela longa (21 dias) só para a condição de infecção
+infeccao_21d <- atributos_janela(21) |> select(ponto, safra, semana, horas_infeccao_21d)
+clima_defasado <- left_join(clima_defasado, infeccao_21d, by = c("ponto", "safra", "semana"))
+
+# ---- 6.3b Esporos e unidades de alerta nas 2 semanas anteriores -------------
+# esporos_raio_2sem   : registros a até RAIO_KM do ponto nos 14 dias antes da semana
+# esporos_estado_2sem : registros no Paraná inteiro nos 14 dias antes da semana
+esp_ponto <- tidyr::crossing(esporos, select(pontos, ponto, lat, lon)) |>
+  mutate(dist_km = haversine_km(latitude, longitude, lat, lon))
+
+atributos_esporos <- grade |>
+  select(ponto, safra, semana, inicio_semana) |>
+  mutate(esporos_raio_2sem = map2_dbl(ponto, inicio_semana, function(p, ini) {
+           e <- esp_ponto[esp_ponto$ponto == p & esp_ponto$dist_km <= RAIO_KM &
+                          esp_ponto$data >= ini - 14 & esp_ponto$data <= ini - 1, ]
+           sum(e$n_registros)
+         }),
+         esporos_estado_2sem = map_dbl(inicio_semana, function(ini) {
+           sum(esporos$n_registros[esporos$data >= ini - 14 & esporos$data <= ini - 1])
+         })) |>
+  select(-inicio_semana)
+
 # ---- 6.4 Junta tudo ---------------------------------------------------------
 tabela <- grade |>
   left_join(alvo, by = c("ponto", "safra", "semana")) |>
-  mutate(n_casos = coalesce(n_casos, 0L),
-         ocorrencia = as.integer(n_casos > 0)) |>
+  left_join(alvo_75, by = c("ponto", "safra", "semana")) |>
+  mutate(n_casos = coalesce(n_casos, 0L), n_casos_75km = coalesce(n_casos_75km, 0L)) |>
   arrange(ponto, safra, semana) |>
   group_by(ponto, safra) |>
-  mutate(casos_antes_ponto = cumsum(n_casos) - n_casos) |>   # só semanas anteriores
+  mutate(
+    caso_na_semana = as.integer(n_casos > 0),
+    # ALVO PRINCIPAL: caso a até RAIO_ALVO_KM nesta semana ou nas próximas HORIZONTE_SEM - 1 semanas
+    ocorrencia = as.integer(Reduce(`|`, lapply(seq_len(HORIZONTE_SEM) - 1, function(k)
+                   coalesce(lead(caso_na_semana, k), 0L) == 1))),
+    ocorrencia_75km_1sem = as.integer(n_casos_75km > 0),      # alvo secundário (versão 1)
+    casos_antes_ponto = cumsum(n_casos) - n_casos) |>         # só semanas anteriores (sem vazamento)
   ungroup() |>
+  select(-caso_na_semana) |>
   left_join(estado |> mutate(semana = semana + 1L) |> rename(casos_estado_sem_ant = casos_estado),
             by = c("safra", "semana")) |>
   mutate(casos_estado_sem_ant = coalesce(casos_estado_sem_ant, 0L)) |>
   left_join(clima_defasado, by = c("ponto", "safra", "semana")) |>
-  relocate(ocorrencia, n_casos, .after = semana)
+  left_join(atributos_esporos, by = c("ponto", "safra", "semana")) |>
+  relocate(ocorrencia, n_casos, ocorrencia_75km_1sem, n_casos_75km, .after = semana)
 
 # janelas incompletas não deveriam acontecer (o clima começa em jul/2020)
 stopifnot(all(tabela[[paste0("n_dias_", max(JANELAS_DIAS), "d")]] == max(JANELAS_DIAS)))
@@ -634,8 +744,9 @@ cat(sprintf("Treino: %d linhas (%d positivas) | Teste: %d linhas (%d positivas)\
             nrow(treino), sum(treino$ocorrencia), nrow(teste), sum(teste$ocorrencia)))
 
 # Listas de atributos prontas para usar nas fórmulas / receitas
-ATR_CLIMA    <- grep("_(7|14)d$", names(tabela), value = TRUE)
-ATR_CONTEXTO <- c("ponto", "semana", "casos_antes_ponto", "casos_estado_sem_ant")
+ATR_CLIMA    <- grep("_(7|14|21)d$", names(tabela), value = TRUE)
+ATR_CONTEXTO <- c("ponto", "semana", "casos_antes_ponto", "casos_estado_sem_ant",
+                  "esporos_raio_2sem", "esporos_estado_2sem")
 ALVO         <- "ocorrencia"
 ATR_CLIMA
 
@@ -644,7 +755,11 @@ ATR_CLIMA
 # Para que os resultados de todos os membros sejam comparáveis, **todos devem avaliar com estas funções**.
 # 
 # - `metricas(prob, y)` — AUC-ROC, AUC-PR (precisão média), F1, precisão, revocação e Brier, com limiar 0,5 (ou outro).
-# - `validacao_por_safra(dados, ajusta_e_preve)` — validação cruzada deixando uma safra de fora. Você só precisa
+# - `limiar_otimo(dados, ajusta_e_preve)` — limiar que maximiza o F1 nas previsões fora da amostra (deixando uma safra
+#   de fora) dos `dados`. Use-o no treino para escolher o limiar que será aplicado ao teste.
+# - `validacao_por_safra(dados, ajusta_e_preve, limiar = LIMIAR)` — validação cruzada deixando uma safra de fora.
+#   Com `limiar = "otimo"`, o limiar de cada fold é escolhido por validação **interna** nas safras de treino
+#   daquele fold (validação aninhada), então a safra avaliada nunca influencia o limiar. Você só precisa
 #   escrever uma função `ajusta_e_preve(treino, validacao)` que **treina** no primeiro data frame e **devolve as
 #   probabilidades** de `ocorrencia = 1` para o segundo.
 # - `registra_resultado(nome, ...)` — guarda os resultados em `resultados_modelos.csv` para juntar no artigo.
@@ -673,16 +788,38 @@ metricas <- function(prob, y, limiar = 0.5) {
          brier = mean((prob - y)^2), prevalencia = mean(y))
 }
 
-validacao_por_safra <- function(dados, ajusta_e_preve, limiar = 0.5) {
+# Probabilidades "fora da amostra" (out-of-fold): cada safra é prevista por um modelo treinado nas outras
+prob_oof <- function(dados, ajusta_e_preve) {
+  p <- numeric(nrow(dados))
+  for (s in unique(dados$safra)) {
+    i <- dados$safra == s
+    p[i] <- ajusta_e_preve(dados[!i, ], dados[i, ])
+  }
+  p
+}
+
+# Limiar que maximiza o F1 nas previsões fora da amostra de `dados` (nunca olha a safra avaliada)
+limiar_otimo <- function(dados, ajusta_e_preve, grade = seq(0.05, 0.95, by = 0.01)) {
+  p  <- prob_oof(dados, ajusta_e_preve)
+  f1 <- vapply(grade, function(l) metricas(p, dados$ocorrencia, l)$f1, numeric(1))
+  grade[which.max(f1)]
+}
+
+# limiar = número fixo, ou "otimo": em cada fold, o limiar é escolhido por validação INTERNA nas safras de
+# treino daquele fold (validação aninhada), e só então aplicado à safra de validação.
+validacao_por_safra <- function(dados, ajusta_e_preve, limiar = 0.5, mostrar = TRUE) {
   safras <- sort(unique(dados$safra))
   por_fold <- map_dfr(safras, function(s) {
     tr <- dados[dados$safra != s, ]; va <- dados[dados$safra == s, ]
+    lim <- if (identical(limiar, "otimo")) limiar_otimo(tr, ajusta_e_preve) else limiar
     prob <- ajusta_e_preve(tr, va)
-    metricas(prob, va$ocorrencia, limiar) |> mutate(safra_validacao = s, .before = 1)
+    metricas(prob, va$ocorrencia, lim) |> mutate(safra_validacao = s, limiar = lim, .before = 1)
   })
-  print(por_fold)
-  cat("\nMédia das safras:\n")
-  print(por_fold |> summarise(across(where(is.numeric), ~ round(mean(.x, na.rm = TRUE), 3))))
+  if (mostrar) {
+    print(por_fold)
+    cat("\nMédia das safras:\n")
+    print(por_fold |> summarise(across(where(is.numeric), ~ round(mean(.x, na.rm = TRUE), 3))))
+  }
   invisible(por_fold)
 }
 
@@ -706,7 +843,7 @@ baseline_calendario <- function(tr, va) {
   predict(m, newdata = va, type = "response")
 }
 
-cv_baseline <- validacao_por_safra(treino, baseline_calendario)
+cv_baseline <- validacao_por_safra(treino, baseline_calendario, limiar = LIMIAR)
 registra_resultado("Baseline: calendário + ponto (logística)", "grupo", "cv_treino", cv_baseline)
 
 # ---
@@ -749,12 +886,13 @@ meu_modelo <- function(tr, va) {
   predict(m, newdata = va, type = "response")
 }
 
-cv_meu <- validacao_por_safra(treino, meu_modelo)
+cv_meu <- validacao_por_safra(treino, meu_modelo, limiar = LIMIAR)
 registra_resultado(MEU_MODELO, MEU_NOME, "cv_treino", cv_meu)
 
 # ===== AVALIAÇÃO FINAL NO TESTE (rode só uma vez, com o modelo escolhido) =====
 # prob_teste <- meu_modelo(treino, teste)
-# res_teste  <- metricas(prob_teste, teste$ocorrencia)
+# lim_teste  <- if (identical(LIMIAR, "otimo")) limiar_otimo(treino, meu_modelo) else LIMIAR
+# res_teste  <- metricas(prob_teste, teste$ocorrencia, lim_teste)
 # res_teste
 # registra_resultado(MEU_MODELO, MEU_NOME, "teste_2025_26", res_teste)
 
@@ -771,7 +909,10 @@ registra_resultado(MEU_MODELO, MEU_NOME, "cv_treino", cv_meu)
 # 
 # - Mesmos dados (`treino`), mesma validação (deixando uma safra de fora) e mesmas métricas (Seção 7.3).
 # - **Desbalanceamento:** os casos positivos recebem peso maior (peso = nº negativos / nº positivos), para que o
-#   limiar de 0,5 faça sentido.
+#   probabilidades fiquem numa escala comparável.
+# - **Limiar de decisão** (`LIMIAR = "otimo"`): escolhido para maximizar o F1 por validação **aninhada** — em
+#   cada fold, só as safras de treino daquele fold são usadas para escolher o limiar. Para o teste, o limiar é escolhido
+#   nas previsões fora da amostra das 5 safras de treino. A busca de hiperparâmetros usa AUC-PR, que não depende do limiar.
 # - **Dois conjuntos de atributos** para cada modelo:
 #   - `clima` — só os atributos climáticos defasados (`ATR_CLIMA`);
 #   - `clima + contexto` — clima + ponto, semana da safra e casos anteriores (`ATR_CONTEXTO`).
@@ -823,7 +964,7 @@ ajusta_logistica <- function(atributos, alpha = 0.5) {
 cv_log <- list()
 for (nome in names(CONJUNTOS)) {
   cat("\n=== Logística elastic net —", nome, "===\n")
-  cv_log[[nome]] <- validacao_por_safra(treino, ajusta_logistica(CONJUNTOS[[nome]]))
+  cv_log[[nome]] <- validacao_por_safra(treino, ajusta_logistica(CONJUNTOS[[nome]]), limiar = LIMIAR)
   registra_resultado(paste("Logística elastic net —", nome), "grupo", "cv_treino", cv_log[[nome]])
 }
 
@@ -871,15 +1012,14 @@ grade_rf <- tidyr::crossing(mtry = c(3, 6, 12), min_no = c(5, 20))
 cv_rf <- list(); melhor_rf <- list()
 for (nome in names(CONJUNTOS)) {
   res <- grade_rf |> mutate(auc_pr = pmap_dbl(list(mtry, min_no), function(mt, mn) {
-    r <- suppressWarnings(capture.output(
-      v <- validacao_por_safra(treino, ajusta_floresta(CONJUNTOS[[nome]], mt, mn))))
+    v <- validacao_por_safra(treino, ajusta_floresta(CONJUNTOS[[nome]], mt, mn), mostrar = FALSE)
     mean(v$auc_pr, na.rm = TRUE)
   }))
   melhor_rf[[nome]] <- slice_max(res, auc_pr, n = 1, with_ties = FALSE)
   cat("\n=== Floresta aleatória —", nome, "| melhor:", "mtry =", melhor_rf[[nome]]$mtry,
       "min.node.size =", melhor_rf[[nome]]$min_no, "===\n")
   cv_rf[[nome]] <- validacao_por_safra(
-    treino, ajusta_floresta(CONJUNTOS[[nome]], melhor_rf[[nome]]$mtry, melhor_rf[[nome]]$min_no))
+    treino, ajusta_floresta(CONJUNTOS[[nome]], melhor_rf[[nome]]$mtry, melhor_rf[[nome]]$min_no), limiar = LIMIAR)
   registra_resultado(paste("Floresta aleatória —", nome), "grupo", "cv_treino", cv_rf[[nome]])
 }
 
@@ -935,14 +1075,14 @@ grade_xgb <- tidyr::crossing(max_depth = c(2, 3), nrounds = c(100, 300))
 cv_xgb <- list(); melhor_xgb <- list()
 for (nome in names(CONJUNTOS)) {
   res <- grade_xgb |> mutate(auc_pr = pmap_dbl(list(max_depth, nrounds), function(md, nr) {
-    r <- capture.output(v <- validacao_por_safra(treino, ajusta_xgb(CONJUNTOS[[nome]], md, nr)))
+    v <- validacao_por_safra(treino, ajusta_xgb(CONJUNTOS[[nome]], md, nr), mostrar = FALSE)
     mean(v$auc_pr, na.rm = TRUE)
   }))
   melhor_xgb[[nome]] <- slice_max(res, auc_pr, n = 1, with_ties = FALSE)
   cat("\n=== XGBoost —", nome, "| melhor: max_depth =", melhor_xgb[[nome]]$max_depth,
       "nrounds =", melhor_xgb[[nome]]$nrounds, "===\n")
   cv_xgb[[nome]] <- validacao_por_safra(
-    treino, ajusta_xgb(CONJUNTOS[[nome]], melhor_xgb[[nome]]$max_depth, melhor_xgb[[nome]]$nrounds))
+    treino, ajusta_xgb(CONJUNTOS[[nome]], melhor_xgb[[nome]]$max_depth, melhor_xgb[[nome]]$nrounds), limiar = LIMIAR)
   registra_resultado(paste("XGBoost —", nome), "grupo", "cv_treino", cv_xgb[[nome]])
 }
 
@@ -960,7 +1100,7 @@ todos_cv <- bind_rows(
 
 comparacao <- todos_cv |>
   group_by(modelo, conjunto) |>
-  summarise(across(c(auc_roc, auc_pr, f1, precisao, revocacao, brier), ~ round(mean(.x, na.rm = TRUE), 3)),
+  summarise(across(c(auc_roc, auc_pr, f1, precisao, revocacao, brier, limiar), ~ round(mean(.x, na.rm = TRUE), 3)),
             .groups = "drop") |>
   arrange(desc(auc_pr))
 comparacao
@@ -1004,8 +1144,12 @@ ajustadores_finais <- list(
 )
 
 prob_teste <- lapply(ajustadores_finais, function(f) f(treino, teste))
+# limiar de cada modelo: escolhido só com o treino (previsões fora da amostra das 5 safras)
+limiares_teste <- lapply(ajustadores_finais, function(f)
+  if (identical(LIMIAR, "otimo")) limiar_otimo(treino, f) else LIMIAR)
 res_teste <- bind_rows(lapply(names(prob_teste), function(n)
-  metricas(prob_teste[[n]], teste$ocorrencia) |> mutate(modelo = n, .before = 1)))
+  metricas(prob_teste[[n]], teste$ocorrencia, limiares_teste[[n]]) |>
+    mutate(modelo = n, limiar = limiares_teste[[n]], .before = 1)))
 res_teste |> mutate(across(where(is.numeric), ~ round(.x, 3)))
 
 for (n in names(prob_teste)) registra_resultado(n, "grupo", "teste_2025_26", res_teste |> filter(modelo == n))
