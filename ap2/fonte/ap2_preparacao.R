@@ -44,7 +44,7 @@ PULAR_PREPROCESSAMENTO <- TRUE
 
 # Repositório de onde vêm os arquivos prontos (modo rápido)
 REPO_GITHUB <- "nicholas-vasconcelos/Projeto-ML-Grupo-III"
-RAMO_GITHUB <- "ap2"
+RAMO_GITHUB <- "master"
 URL_DADOS   <- sprintf("https://raw.githubusercontent.com/%s/%s/ap2/dados", REPO_GITHUB, RAMO_GITHUB)
 
 REBAIXAR    <- FALSE   # (modo completo) TRUE = ignora arquivos já baixados e consulta as APIs de novo

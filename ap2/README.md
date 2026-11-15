@@ -1,6 +1,6 @@
 # AP2 — Previsão semanal da ferrugem-asiática da soja no Paraná
 
-[![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nicholas-vasconcelos/Projeto-ML-Grupo-III/blob/ap2/ap2/AP2_preparacao_dados.ipynb)
+[![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nicholas-vasconcelos/Projeto-ML-Grupo-III/blob/master/ap2/AP2_preparacao_dados.ipynb)
 
 Notebook em **R** (Google Colab) que monta a base da AP2 e treina os modelos de classificação:
 dado o clima das semanas anteriores, haverá caso de ferrugem-asiática a até 75 km de um ponto climático naquela semana?
